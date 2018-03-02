@@ -1,0 +1,29 @@
+{
+    "name": "gulp-vsts-bump",
+    "description": "Gulp plugin to support bumping VSTS task manifests",
+    "version": "0.0.1",
+    "license": "MIT",
+    "repository": {
+      "url": "https://github.com/swellaby/gulp-vsts-bump",
+      "type": "git"
+    },
+    "author": {
+      "name": "Swellaby",
+      "email": "opensource@swellaby.com",
+      "url": "http://swellaby.com"
+    },
+    "contributors": [
+      {
+        "name": "Caleb Cartwright",
+        "url": "https://github.com/calebcartwright"
+      }
+    ],
+    "scripts": {
+      
+    },
+    "devDependencies": {
+    },
+    "dependencies": {
+    }
+  }
+  

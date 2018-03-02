@@ -1,0 +1,15 @@
+{
+    "version": "0.1.0",
+    "isShellCommand": true,
+    "showOutput": "silent",
+    "tasks": [
+        {
+            "taskName": "install dependencies",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "install"
+            ]
+        }
+    ]
+}
