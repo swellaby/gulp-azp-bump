@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        "npm-debug.log": true,
+        ".coverage": true,
+        ".testresults": true,
+        "node_modules": true,
+        ".nyc_output": true
+    }
+}
+
+// "coverage-gutters.showLineCoverage": true,
+// "coverage-gutters.showRulerCoverage": true,

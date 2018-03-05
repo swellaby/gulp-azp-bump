@@ -2,3 +2,6 @@
 .ntvs_analysis.dat*
 npm-debug*
 *.tar.*
+.coverage
+.testresults
+.nyc_output

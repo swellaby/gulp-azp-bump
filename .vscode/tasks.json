@@ -10,6 +10,50 @@
                 "npm",
                 "install"
             ]
+        },
+        {
+            "taskName": "build",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "run",
+                "build"
+            ]
+        },
+        {
+            "taskName": "lint",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "run",
+                "lint"
+            ]
+        },
+        {
+            "taskName": "test",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "test"
+            ]
+        },
+        {
+            "taskName": "enforce-coverage",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "run",
+                "enforce-coverage"
+            ]
+        },
+        {
+            "taskName": "open-coverage",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "run",
+                "show-coverage"
+            ]
         }
     ]
 }

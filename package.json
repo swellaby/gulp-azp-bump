@@ -1,29 +1,56 @@
 {
-    "name": "gulp-vsts-bump",
-    "description": "Gulp plugin to support bumping VSTS task manifests",
-    "version": "0.0.1",
-    "license": "MIT",
-    "repository": {
-      "url": "https://github.com/swellaby/gulp-vsts-bump",
-      "type": "git"
-    },
-    "author": {
-      "name": "Swellaby",
-      "email": "opensource@swellaby.com",
-      "url": "http://swellaby.com"
-    },
-    "contributors": [
-      {
-        "name": "Caleb Cartwright",
-        "url": "https://github.com/calebcartwright"
-      }
-    ],
-    "scripts": {
-      
-    },
-    "devDependencies": {
-    },
-    "dependencies": {
+  "name": "gulp-vsts-bump",
+  "description": "Gulp plugin to support bumping VSTS task manifests",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "repository": {
+    "url": "https://github.com/swellaby/gulp-vsts-bump",
+    "type": "git"
+  },
+  "author": {
+    "name": "Swellaby",
+    "email": "opensource@swellaby.com",
+    "url": "http://swellaby.com"
+  },
+  "contributors": [
+    {
+      "name": "Caleb Cartwright",
+      "url": "https://github.com/calebcartwright"
     }
+  ],
+  "keywords": [
+    "gulpplugin",
+    "gulp",
+    "vsts",
+    "bump"
+  ],
+  "scripts": {
+    "build": "npm run lint && npm run enforce-coverage",
+    "coverage": "nyc --nycrc-path ./config/.nycrc npm test",
+    "enforce-coverage": "nyc --nycrc-path ./config/.nycrc --check-coverage true npm test",
+    "lint": "eslint --ignore-path ./config/.eslintignore -c ./config/.eslintrc.js ./**/*.js",
+    "show-coverage": "npm run coverage && opn ./.coverage/index.html",
+    "test": "mocha --opts ./config/mocha.opts ./test/**/*-tests.js",
+    "test2": "mocha -h"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.18.2",
+    "mocha": "^5.0.1",
+    "mocha-multi": "^1.0.1",
+    "nyc": "^11.4.1",
+    "opn-cli": "^3.1.0",
+    "sinon": "^4.4.2",
+    "vinyl": "^2.1.0"
+  },
+  "dependencies": {
+
+    "chalk": "^2.3.2",
+
+    "fancy-log": "^1.3.2",
+    "plugin-error": "^1.0.1",
+    "semver": "^5.5.0",
+    "through2": "^2.0.3"
   }
-  
+}

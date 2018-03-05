@@ -1,0 +1,8 @@
+.circleci
+.coverage
+.github
+.testresults
+.vscode
+test/
+config/
+.nyc_output
