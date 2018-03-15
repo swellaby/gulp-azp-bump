@@ -12,25 +12,29 @@ const assert = Chai.assert;
 suite('plugin Suite:', () => {
     const sandbox = Sinon.sandbox.create();
     let opts;
-    const fileStub = {
-        isNull: () => false,
-        isStream: () => false,
-    };
+    const fileStub = helpers.validSampleOneTaskFile;
+    let callback;
     let semverIncStub;
+    let semverValidStub;
+    let semverMajorStub;
+    let semverMinorStub;
+    let semverPatchStub;
     let throughObjStub;
     let fileIsNullStub;
-    let fileIsStreamStub;   
-    const patchType = 'patch';
-    const minor = 'minor';
-    const major = 'major';
-    const defaultReleaseType = patchType;    
+    let fileIsStreamStub;
+    let jsonParseStub;
         
     setup(() => {
         opts = {};
         semverIncStub = sandbox.stub(semver, 'inc').callsFake(() => { return true; });
+        semverValidStub = sandbox.stub(semver, 'valid').callsFake(() => { return true; });
+        semverMajorStub = sandbox.stub(semver, 'major').callsFake(() => { return true; });
+        semverMinorStub = sandbox.stub(semver, 'minor').callsFake(() => { return true; });
+        semverPatchStub = sandbox.stub(semver, 'patch').callsFake(() => { return true; });
         throughObjStub = sandbox.stub(through, 'obj');
         fileIsNullStub = sandbox.stub(fileStub, 'isNull').callsFake(() => false);
         fileIsStreamStub = sandbox.stub(fileStub, 'isStream').callsFake(() => false);
+        jsonParseStub = sandbox.stub(JSON, 'parse').callsFake(() => { return helpers.validSampleOneTaskContents; });
     });
 
     teardown(() => {
@@ -38,7 +42,7 @@ suite('plugin Suite:', () => {
         opts = null;
     });
 
-    suite('Default Options Suite', () => {               
+    suite('Default options Suite:', () => {               
         const throughStub = {};
         
         setup(() => {            
@@ -47,32 +51,32 @@ suite('plugin Suite:', () => {
 
         test('Should set release type to default if no type is specified', () => {
             plugin.bump(opts);
-            assert.deepEqual(opts.type, defaultReleaseType);
+            assert.deepEqual(opts.type, helpers.defaultReleaseType);
         });
 
         test('Should set release type to default if invalid type is specified', () => {
             opts.type = 'bad';
             semverIncStub.callsFake(() => false);
             plugin.bump(opts);
-            assert.deepEqual(opts.type, defaultReleaseType);
+            assert.deepEqual(opts.type, helpers.defaultReleaseType);
         });
 
         test('Should use specified release type when patch type is specified', () => {            
-            opts.type = patchType;
+            opts.type = helpers.patchReleaseType;
             plugin.bump(opts);
-            assert.deepEqual(opts.type, patchType);
+            assert.deepEqual(opts.type, helpers.patchReleaseType);
         });
 
         test('Should use specified release type when minor type is specified', () => {           
-            opts.type = minor;
+            opts.type = helpers.minorReleaseType;
             plugin.bump(opts);
-            assert.deepEqual(opts.type, minor);
+            assert.deepEqual(opts.type, helpers.minorReleaseType);
         });
 
         test('Should use specified release type when major type is specified', () => {
-            opts.type = major;
+            opts.type = helpers.majorReleaseType;
             plugin.bump(opts);
-            assert.deepEqual(opts.type, major);
+            assert.deepEqual(opts.type, helpers.majorReleaseType);
         });
 
         test('Should return a stream', () => {
@@ -82,9 +86,7 @@ suite('plugin Suite:', () => {
         });
     });
 
-    suite('File validation Suite', () => {
-        let callback;
-
+    suite('File validation Suite:', () => {
         setup(() => {
             throughObjStub.yields(fileStub, null, callback);
         });
@@ -95,7 +97,6 @@ suite('plugin Suite:', () => {
 
         test('Should invoke the callback with the file when the file is null', (done) => {            
             callback = (err, data) => {
-                console.log('up in hurrrr');
                 assert.isNull(err);
                 assert.deepEqual(data, fileStub);
                 assert.isTrue(fileIsNullStub.called);
@@ -103,6 +104,56 @@ suite('plugin Suite:', () => {
                 done();
             };
             fileIsNullStub.callsFake(() => true);
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+
+        test('Should invoke the callback with a plugin error when the file is a stream', (done) => {
+            callback = (err, data) => {
+                assert.isNotNull(err);
+                assert.isUndefined(data);
+                assert.deepEqual(err.message, 'Streaming not supported');
+                assert.deepEqual(err.plugin, helpers.pluginName);
+                assert.isTrue(fileIsNullStub.called);
+                assert.isTrue(fileIsStreamStub.called);
+                done();
+            };
+            fileIsStreamStub.callsFake(() => true);
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+    });
+
+    suite('parseFile Suite:', () => {
+        const parsingErrorMessage = 'Error parsing JSON file';
+        const invalidVersionErrorMessagePrefix = 'Task manifest file contains an invalid version specification: ';
+        const invalidVersionErrorMessage = invalidVersionErrorMessagePrefix + 'foo';
+
+        test('Should invoke the callback with an error when the file parse fails', (done) => {
+            jsonParseStub.throws(() => new Error());
+            callback = (err, data) => {
+                assert.isNotNull(err);
+                assert.isUndefined(data);
+                assert.deepEqual(err.message, parsingErrorMessage);
+                assert.deepEqual(err.plugin, helpers.pluginName);
+                assert.isTrue(err.showStack);
+                assert.deepEqual(err.fileName, helpers.filePath);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+
+        test('Should invoke the callback with an error when the file version is invalid', (done) => {
+            callback = (err, data) => {
+                // assert.isNotNull(err);
+                // assert.isUndefined(data);
+                // assert.deepEqual(err.message, parsingErrorMessage);
+                // assert.deepEqual(err.plugin, helpers.pluginName);
+                // assert.isTrue(err.showStack);
+                // assert.deepEqual(err.fileName, helpers.filePath);
+                done();
+            };
             throughObjStub.yields(fileStub, null, callback);
             plugin.bump(opts);
         });
