@@ -12,7 +12,7 @@ const assert = Chai.assert;
 suite('plugin Suite:', () => {
     const sandbox = Sinon.sandbox.create();
     let opts;
-    const fileStub = helpers.validSampleOneTaskFile;
+    let fileStub;
     let callback;
     let semverIncStub;
     let semverValidStub;
@@ -23,30 +23,38 @@ suite('plugin Suite:', () => {
     let fileIsNullStub;
     let fileIsStreamStub;
     let jsonParseStub;
-        
+    let jsonStringifySpy;
+
+    const stubSemverFunctions = () => {
+        semverIncStub = sandbox.stub(semver, 'inc').callsFake(() => helpers.bumpedVersion);
+        semverValidStub = sandbox.stub(semver, 'valid').callsFake(() => { return true; });
+        semverMajorStub = sandbox.stub(semver, 'major').callsFake(() => helpers.majorVersion);
+        semverMinorStub = sandbox.stub(semver, 'minor').callsFake(() => helpers.minorVersion);
+        semverPatchStub = sandbox.stub(semver, 'patch').callsFake(() => helpers.patchVersion);
+    };
+
     setup(() => {
         opts = {};
-        semverIncStub = sandbox.stub(semver, 'inc').callsFake(() => { return true; });
-        semverValidStub = sandbox.stub(semver, 'valid').callsFake(() => { return true; });
-        semverMajorStub = sandbox.stub(semver, 'major').callsFake(() => { return true; });
-        semverMinorStub = sandbox.stub(semver, 'minor').callsFake(() => { return true; });
-        semverPatchStub = sandbox.stub(semver, 'patch').callsFake(() => { return true; });
+        fileStub = helpers.validSampleOneTaskFile;
+        stubSemverFunctions();
         throughObjStub = sandbox.stub(through, 'obj');
         fileIsNullStub = sandbox.stub(fileStub, 'isNull').callsFake(() => false);
         fileIsStreamStub = sandbox.stub(fileStub, 'isStream').callsFake(() => false);
         jsonParseStub = sandbox.stub(JSON, 'parse').callsFake(() => { return helpers.validSampleOneTaskContents; });
+        jsonStringifySpy = sandbox.spy(JSON, 'stringify');
     });
 
     teardown(() => {
         sandbox.restore();
         opts = null;
+        fileStub = null;
     });
 
-    suite('Default options Suite:', () => {               
+    suite('Default options Suite:', () => {
         const throughStub = {};
-        
-        setup(() => {            
-            throughObjStub.callsFake(() => throughStub);        
+
+        setup(() => {
+            throughObjStub.callsFake(() => throughStub);
         });
 
         test('Should set release type to default if no type is specified', () => {
@@ -61,13 +69,13 @@ suite('plugin Suite:', () => {
             assert.deepEqual(opts.type, helpers.defaultReleaseType);
         });
 
-        test('Should use specified release type when patch type is specified', () => {            
+        test('Should use specified release type when patch type is specified', () => {
             opts.type = helpers.patchReleaseType;
             plugin.bump(opts);
             assert.deepEqual(opts.type, helpers.patchReleaseType);
         });
 
-        test('Should use specified release type when minor type is specified', () => {           
+        test('Should use specified release type when minor type is specified', () => {
             opts.type = helpers.minorReleaseType;
             plugin.bump(opts);
             assert.deepEqual(opts.type, helpers.minorReleaseType);
@@ -95,7 +103,7 @@ suite('plugin Suite:', () => {
             callback = null;
         });
 
-        test('Should invoke the callback with the file when the file is null', (done) => {            
+        test('Should invoke the callback with the file when the file is null', (done) => {
             callback = (err, data) => {
                 assert.isNull(err);
                 assert.deepEqual(data, fileStub);
@@ -124,17 +132,13 @@ suite('plugin Suite:', () => {
         });
     });
 
-    suite('parseFile Suite:', () => {
-        const parsingErrorMessage = 'Error parsing JSON file';
-        const invalidVersionErrorMessagePrefix = 'Task manifest file contains an invalid version specification: ';
-        const invalidVersionErrorMessage = invalidVersionErrorMessagePrefix + 'foo';
-
+    suite('File parsing errors Suite:', () => {
         test('Should invoke the callback with an error when the file parse fails', (done) => {
             jsonParseStub.throws(() => new Error());
             callback = (err, data) => {
                 assert.isNotNull(err);
                 assert.isUndefined(data);
-                assert.deepEqual(err.message, parsingErrorMessage);
+                assert.deepEqual(err.message, 'Error parsing JSON file');
                 assert.deepEqual(err.plugin, helpers.pluginName);
                 assert.isTrue(err.showStack);
                 assert.deepEqual(err.fileName, helpers.filePath);
@@ -145,17 +149,42 @@ suite('plugin Suite:', () => {
         });
 
         test('Should invoke the callback with an error when the file version is invalid', (done) => {
+            const invalidVersionErrorMessagePrefix = 'Task manifest file contains an invalid version specification: ';
+            const invalidVersionErrorMessage = invalidVersionErrorMessagePrefix + 'abc.' + helpers.minorVersion + '.' + helpers.patchVersion;
             callback = (err, data) => {
-                // assert.isNotNull(err);
-                // assert.isUndefined(data);
-                // assert.deepEqual(err.message, parsingErrorMessage);
-                // assert.deepEqual(err.plugin, helpers.pluginName);
-                // assert.isTrue(err.showStack);
-                // assert.deepEqual(err.fileName, helpers.filePath);
+                assert.isUndefined(data);
+                assert.deepEqual(err.message, invalidVersionErrorMessage);
+                assert.deepEqual(err.plugin, helpers.pluginName);
+                done();
+            };
+            semverValidStub.callsFake(() => false);
+            jsonParseStub.callsFake(() => helpers.invalidSampleOneTaskContents);
+            throughObjStub.yields(helpers.invalidSampleOneTaskFile, null, callback);
+            plugin.bump(opts);
+        });
+    });
+
+    suite('Update File Suite:', () => {
+        const bumpedPatchVersion = helpers.patchVersion + 1;
+        setup(() => {
+            semverPatchStub.callsFake(() => bumpedPatchVersion);
+        });
+
+        test('Should correctly bump the file', (done) => {
+            const taskJson = helpers.validSampleOneTaskContents;
+            callback = (err, data) => {
+                assert.isNull(err);
+                assert.isTrue(jsonStringifySpy.calledWith(taskJson));
+                // assert.deepEqual(taskJson.version.Major, helpers.majorVersion);
+                // assert.deepEqual(taskJson.version.Minor, helpers.minorVersion);
+                // assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion);
+                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson)));
+                assert.isTrue(semverIncStub.calledWith(helpers.initialVersion, helpers.defaultReleaseType));
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
             plugin.bump(opts);
         });
+
     });
 });

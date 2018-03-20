@@ -31,8 +31,7 @@
     "enforce-coverage": "nyc --nycrc-path ./config/.nycrc --check-coverage true npm test",
     "lint": "eslint --ignore-path ./config/.eslintignore -c ./config/.eslintrc.js ./**/*.js",
     "show-coverage": "npm run coverage && opn ./.coverage/index.html",
-    "test": "mocha --opts ./config/mocha.opts ./test/**/*-tests.js",
-    "test2": "mocha -h"
+    "test": "mocha --opts ./config/mocha.opts ./test/**/*-tests.js"
   },
   "devDependencies": {
     "chai": "^4.1.2",

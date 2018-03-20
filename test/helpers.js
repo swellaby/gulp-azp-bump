@@ -1,42 +1,57 @@
 'use strict';
 
 const patchReleaseType = 'patch';
-module.exports.patchReleaseType = patchReleaseType;
-module.exports.minorReleaseType = 'minor';
-module.exports.majorReleaseType = 'major';
-module.exports.defaultReleaseType = patchReleaseType;
-module.exports.pluginName = 'gulp-vsts-bump';
+const minorReleaseType = 'minor';
+const majorReleaseType = 'major';
 
-const description = 'test';
-const id = 'asdf876asdfkasd';
-const taskName = 'test-task';
-const majorStr = '0';
-const majorVal = 0;
-const minorStr = '8';
-const minorVal = 8;
-const patchStr = '2';
-const patchVal = 2;
-
-// module.exports.
+const major = 0;
+const minor = 8;
+const patch = 2;
 
 const validSampleOneTaskContents = {
-    decription: description,
-    id: id,
-    name: taskName,
+    decription: 'test',
+    id: 'asdf876asdfkasd',
+    name: 'test-task',
     version: {
-        Major: majorStr,
-        Minor: minorStr,
-        Patch: patchStr
+        Major: major.toString(),
+        Minor: minor.toString(),
+        Patch: patch.toString()
+    }
+};
+
+const invalidSampleOneTaskContents = {
+    id: 'a8979asdfiugiyuasdfkasd',
+    version: {
+        Major: 'abc',
+        Minor: minor.toString(),
+        Patch: patch.toString()
     }
 };
 const filePath = './src/foo.js';
-const sampleTaskFile = {
-    contents: JSON.stringify(validSampleOneTaskContents),
-    isNull: () => false,
-    isStream: () => false,
-    path: filePath
-};
 
-module.exports.filePath = filePath;
-module.exports.validSampleOneTaskContents = validSampleOneTaskContents;
-module.exports.validSampleOneTaskFile = sampleTaskFile;
+const buildTaskFile = ((fileContents) => {
+    return {
+        contents: JSON.stringify(fileContents),
+        isNull: () => false,
+        isStream: () => false,
+        path: filePath
+    };
+});
+
+module.exports = {
+    pluginName: 'gulp-vsts-bump',
+    patchReleaseType: patchReleaseType,
+    minorReleaseType: minorReleaseType,
+    majorReleaseType: majorReleaseType,
+    defaultReleaseType: patchReleaseType,
+    majorVersion: major,
+    minorVersion: minor,
+    patchVersion: patch,
+    initialVersion: major + '.' + minor + '.' + patch,
+    bumpedVersion: major + '.' + minor + '.' + (patch + 1),
+    filePath: filePath,
+    validSampleOneTaskFile: buildTaskFile(validSampleOneTaskContents),
+    invalidSampleOneTaskFile: buildTaskFile(invalidSampleOneTaskContents),
+    validSampleOneTaskContents: validSampleOneTaskContents,
+    invalidSampleOneTaskContents: invalidSampleOneTaskContents
+};
