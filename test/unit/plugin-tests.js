@@ -1,13 +1,14 @@
 'use strict';
 
 const Chai = require('chai');
+const chalk = require('chalk');
 const log = require('fancy-log');
 const semver = require('semver');
 const Sinon = require('sinon');
 const through = require('through2');
 
-const helpers = require('./helpers');
-const plugin = require('../lib/plugin');
+const helpers = require('../helpers');
+const plugin = require('../../lib/plugin');
 const assert = Chai.assert;
 
 suite('plugin Suite:', () => {
@@ -36,7 +37,7 @@ suite('plugin Suite:', () => {
     };
 
     setup(() => {
-        opts = {};
+        opts = { quiet: true };
         fileStub = helpers.validSampleOneTaskFile;
         stubSemverFunctions();
         throughObjStub = sandbox.stub(through, 'obj');
@@ -256,10 +257,40 @@ suite('plugin Suite:', () => {
     });
 
     suite('Log output Suite:', () => {
-        test('Should not log output when options has quiet set to true', (done) => {
-            opts.quiet = true;
+        test('Should log output when options does not set quiet prop', (done) => {
+            opts = {};
             callback = () => {
-                assert.isFalse(logInfoStub.called);
+                assert.isTrue(logInfoStub.called);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+
+        test('Should log output when options sets quiet prop to 0', (done) => {
+            opts.quiet = 0;
+            callback = () => {
+                assert.isTrue(logInfoStub.called);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+
+        test('Should log output when options sets quiet prop to negative value', (done) => {
+            opts.quiet = -1;
+            callback = () => {
+                assert.isTrue(logInfoStub.called);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+
+        test('Should log output when options sets quiet prop to string value', (done) => {
+            opts.quiet = 'true';
+            callback = () => {
+                assert.isTrue(logInfoStub.called);
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
@@ -274,6 +305,29 @@ suite('plugin Suite:', () => {
             };
             throughObjStub.yields(fileStub, null, callback);
             plugin.bump(opts);
+        });
+
+        test('Should not log output when options has quiet prop set to true', (done) => {
+            opts.quiet = true;
+            callback = () => {
+                assert.isFalse(logInfoStub.called);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+
+        test('Should log correct output content', (done) => {
+            const initialVersionMessage = 'Bumped ' + chalk.blue(helpers.initialVersion);
+            const newVersionMessage = ' to ' + chalk.magenta(helpers.bumpedVersion);
+            const bumpTypeMessage = ' with type: ' + chalk.blue(helpers.defaultReleaseType);
+            const logMessage = initialVersionMessage + newVersionMessage + bumpTypeMessage;
+            callback = () => {
+                assert.isTrue(logInfoStub.calledWith(logMessage));
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump({});
         });
     });
 });

@@ -12,6 +12,5 @@
         "ignorePath": "./config/.eslintignore"
     }
 }
-
 // "coverage-gutters.showLineCoverage": true,
 // "coverage-gutters.showRulerCoverage": true,
