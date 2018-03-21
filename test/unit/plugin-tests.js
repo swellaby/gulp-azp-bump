@@ -1,7 +1,6 @@
 'use strict';
 
 const Chai = require('chai');
-const chalk = require('chalk');
 const log = require('fancy-log');
 const semver = require('semver');
 const Sinon = require('sinon');
@@ -318,12 +317,8 @@ suite('plugin Suite:', () => {
         });
 
         test('Should log correct output content', (done) => {
-            const initialVersionMessage = 'Bumped ' + chalk.blue(helpers.initialVersion);
-            const newVersionMessage = ' to ' + chalk.magenta(helpers.bumpedVersion);
-            const bumpTypeMessage = ' with type: ' + chalk.blue(helpers.defaultReleaseType);
-            const logMessage = initialVersionMessage + newVersionMessage + bumpTypeMessage;
             callback = () => {
-                assert.isTrue(logInfoStub.calledWith(logMessage));
+                assert.isTrue(logInfoStub.calledWith(helpers.expectedLogMessage));
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
