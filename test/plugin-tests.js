@@ -1,6 +1,7 @@
 'use strict';
 
 const Chai = require('chai');
+const log = require('fancy-log');
 const semver = require('semver');
 const Sinon = require('sinon');
 const through = require('through2');
@@ -24,6 +25,7 @@ suite('plugin Suite:', () => {
     let fileIsStreamStub;
     let jsonParseStub;
     let jsonStringifySpy;
+    let logInfoStub;
 
     const stubSemverFunctions = () => {
         semverIncStub = sandbox.stub(semver, 'inc').callsFake(() => helpers.bumpedVersion);
@@ -42,6 +44,7 @@ suite('plugin Suite:', () => {
         fileIsStreamStub = sandbox.stub(fileStub, 'isStream').callsFake(() => false);
         jsonParseStub = sandbox.stub(JSON, 'parse').callsFake(() => { return helpers.validSampleOneTaskContents; });
         jsonStringifySpy = sandbox.spy(JSON, 'stringify');
+        logInfoStub = sandbox.stub(log, 'info');
     });
 
     teardown(() => {
@@ -164,27 +167,113 @@ suite('plugin Suite:', () => {
         });
     });
 
-    suite('Update File Suite:', () => {
+    suite('Update file errors Suite:', () => {
+        const errorMessage = 'Error bumping version';
+
+        test('Should invoke the callback with an error when the inc throws an error', (done) => {
+            semverIncStub.throws(() => new Error());
+            callback = (err, data) => {
+                assert.isNotNull(err);
+                assert.isUndefined(data);
+                assert.deepEqual(err.message, errorMessage);
+                assert.deepEqual(err.plugin, helpers.pluginName);
+                assert.isTrue(err.showStack);
+                assert.deepEqual(err.fileName, helpers.filePath);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts); 
+        });
+
+        test('Should invoke the callback with an error when retrieving major throws an error', (done) => {
+            semverMajorStub.throws(() => new Error());
+            callback = (err, data) => {
+                assert.isNotNull(err);
+                assert.isUndefined(data);
+                assert.deepEqual(err.message, errorMessage);
+                assert.deepEqual(err.plugin, helpers.pluginName);
+                assert.isTrue(err.showStack);
+                assert.deepEqual(err.fileName, helpers.filePath);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts); 
+        });
+
+        test('Should invoke the callback with an error when retrieving minor throws an error', (done) => {
+            semverMinorStub.throws(() => new Error());
+            callback = (err, data) => {
+                assert.isNotNull(err);
+                assert.isUndefined(data);
+                assert.deepEqual(err.message, errorMessage);
+                assert.deepEqual(err.plugin, helpers.pluginName);
+                assert.isTrue(err.showStack);
+                assert.deepEqual(err.fileName, helpers.filePath);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts); 
+        });
+
+        test('Should invoke the callback with an error when retrieving patch throws an error', (done) => {
+            semverPatchStub.throws(() => new Error());
+            callback = (err, data) => {
+                assert.isNotNull(err);
+                assert.isUndefined(data);
+                assert.deepEqual(err.message, errorMessage);
+                assert.deepEqual(err.plugin, helpers.pluginName);
+                assert.isTrue(err.showStack);
+                assert.deepEqual(err.fileName, helpers.filePath);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts); 
+        });
+    });
+
+    suite('Update file Suite:', () => {
         const bumpedPatchVersion = helpers.patchVersion + 1;
         setup(() => {
             semverPatchStub.callsFake(() => bumpedPatchVersion);
         });
 
         test('Should correctly bump the file', (done) => {
-            const taskJson = helpers.validSampleOneTaskContents;
+            const taskJson = helpers.createSampleTaskContents(helpers.majorVersionStr, helpers.minorVersionStr, helpers.patchVersionStr);
             callback = (err, data) => {
                 assert.isNull(err);
                 assert.isTrue(jsonStringifySpy.calledWith(taskJson));
-                // assert.deepEqual(taskJson.version.Major, helpers.majorVersion);
-                // assert.deepEqual(taskJson.version.Minor, helpers.minorVersion);
-                // assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion);
+                assert.deepEqual(taskJson.version.Major, helpers.majorVersionStr);
+                assert.deepEqual(taskJson.version.Minor, helpers.minorVersionStr);
+                assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion.toString());
                 assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson)));
                 assert.isTrue(semverIncStub.calledWith(helpers.initialVersion, helpers.defaultReleaseType));
+                done();
+            };
+            jsonParseStub.callsFake(() => taskJson);
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
+    });
+
+    suite('Log output Suite:', () => {
+        test('Should not log output when options has quiet set to true', (done) => {
+            opts.quiet = true;
+            callback = () => {
+                assert.isFalse(logInfoStub.called);
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
             plugin.bump(opts);
         });
 
+        test('Should log output when quiet is false', (done) => {
+            opts.quiet = false;
+            callback = () => {
+                assert.isTrue(logInfoStub.called);
+                done();
+            };
+            throughObjStub.yields(fileStub, null, callback);
+            plugin.bump(opts);
+        });
     });
 });
