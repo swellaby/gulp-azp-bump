@@ -10,7 +10,7 @@ const index = require('../../lib/index');
 
 const assert = Chai.assert;
 
-suite('Index Suite:', () => {
+suite('Module Suite:', () => {
     let fakeFile = new File();
     let logInfoStub;
     const sandbox = Sinon.sandbox.create();
