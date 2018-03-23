@@ -30,29 +30,39 @@
             ]
         },
         {
-            "taskName": "test",
-            "suppressTaskName": true,
-            "args": [
-                "npm",
-                "test"
-            ]
-        },
-        {
-            "taskName": "enforce-coverage",
+            "taskName": "unit test",
             "suppressTaskName": true,
             "args": [
                 "npm",
                 "run",
-                "enforce-coverage"
+                "test:unit"
             ]
         },
         {
-            "taskName": "open-coverage",
+            "taskName": "component test",
             "suppressTaskName": true,
             "args": [
                 "npm",
                 "run",
-                "show-coverage"
+                "test:component"
+            ]
+        },
+        {
+            "taskName": "enforce unit coverage",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "run",
+                "coverage:enforce"
+            ]
+        },
+        {
+            "taskName": "open unit coverage",
+            "suppressTaskName": true,
+            "args": [
+                "npm",
+                "run",
+                "coverage:open"
             ]
         }
     ]

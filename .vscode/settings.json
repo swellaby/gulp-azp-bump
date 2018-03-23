@@ -1,12 +1,11 @@
 {
     "files.exclude": {
         "npm-debug.log": true,
-        ".coverage": true,
         ".testresults": true,
+        ".coverage": true,
         "node_modules": true,
         ".nyc_output": true
     },
-    "javascript.implicitProjectConfig.checkJs": true,
     "eslint.options": {
         "configFile": "./config/.eslintrc.js",
         "ignorePath": "./config/.eslintignore"

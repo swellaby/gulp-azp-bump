@@ -3,6 +3,7 @@
 const Chai = require('chai');
 const File = require('vinyl');
 const log = require('fancy-log');
+const ReadableStream = require('stream').Readable;
 const Sinon = require('sinon');
 
 const helpers = require('../helpers');
@@ -19,7 +20,7 @@ suite('Module Suite:', () => {
         logInfoStub = sandbox.stub(log, 'info');
         fakeFile = new File({
             contents: new Buffer(JSON.stringify(helpers.validSampleOneTaskContents)),
-            path: helpers.filePath
+            path: helpers.filePath            
         });
     });
 
@@ -28,7 +29,7 @@ suite('Module Suite:', () => {
         fakeFile = null;
     });
 
-    suite('Bump validation Suite:', () => {
+    suite('Successful bump Suite:', () => {
         test('Should bump patch version when nothing is specified', (done) => {
             const bump = index();
             bump.once('data', function(newFile) {
@@ -91,6 +92,43 @@ suite('Module Suite:', () => {
             });
           
             bump.write(fakeFile);      
+            bump.end();
+        });
+    });
+
+    suite('Failed bump Suite:', () => {
+        test('Should return the file when it is null', (done) => {
+            fakeFile.contents = null;
+            const bump = index();
+            bump.once('data', function(file) {
+                assert.deepEqual(file, fakeFile);
+                done();
+            });
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bubble an error when the file content is a stream', (done) => {
+            fakeFile.contents = new ReadableStream();
+            const bump = index();
+            bump.once('error', function(e) {
+                assert.isNotNull(e);
+                assert.deepEqual(e.message, 'Streaming not supported');
+                done();
+            });
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bubble an error when a fatal exception occurs while updating the file', (done) => {
+            logInfoStub.throws(() => new Error());
+            const bump = index();
+            bump.once('error', function(e) {
+                assert.isNotNull(e);
+                assert.deepEqual(e.message, 'Error bumping version');
+                done();
+            });
+            bump.write(fakeFile);
             bump.end();
         });
     });

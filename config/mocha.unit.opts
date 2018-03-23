@@ -1,5 +1,5 @@
 --ui tdd
 --timeout 250
 -R mocha-multi
---reporter-options spec=-,xunit=./.testresults/unit-testresults.xml
+--reporter-options spec=-,xunit=./.testresults/unit/xunit.xml
 --recursive

@@ -45,7 +45,7 @@ suite('Files Suite:', () => {
                 done();
             });
           
-            bump.write(fakeFile);      
+            bump.write(fakeFile);
             bump.end();
         });
     
@@ -58,7 +58,7 @@ suite('Files Suite:', () => {
                 done();
             });
           
-            bump.write(fakeFile);      
+            bump.write(fakeFile);
             bump.end();
         });
     
@@ -71,7 +71,7 @@ suite('Files Suite:', () => {
                 done();
             });
           
-            bump.write(fakeFile);      
+            bump.write(fakeFile);
             bump.end();
         });
     
@@ -85,7 +85,7 @@ suite('Files Suite:', () => {
                 done();
             });
           
-            bump.write(fakeFile);      
+            bump.write(fakeFile);
             bump.end();
         });
     
@@ -99,22 +99,65 @@ suite('Files Suite:', () => {
                 done();
             });
           
-            bump.write(fakeFile);      
+            bump.write(fakeFile);
             bump.end();
         });
     });
 
     suite('Invalid content Suite:', () => {
-        test('Should bump patch version when nothing is specified', (done) => {
+        const invalidValuesFilePath = path.resolve(__dirname, 'files/invalid-values.json');
+        const invalidValuesFile = fs.readFileSync(invalidValuesFilePath);
+
+        setup(() => {
+            fakeFile = new File({
+                contents: invalidValuesFile,
+                path: invalidValuesFilePath,
+                base: 'test/',
+                cwd: 'test/'
+            });
+        });
+
+        test('Should bubble an error when the version values are invalid', (done) => {
             const bump = index();
-            bump.once('data', function(newFile) {
-                assert.isNotNull(newFile);
-                assert.isNotNull(newFile.path);
-                assert.deepEqual(JSON.parse(newFile.contents), patchFile);
+            bump.once('error', function(e) {
+                assert.isNotNull(e);
+                assert.deepEqual(e.message, 'Task manifest file contains an invalid version specification: foo.1.1');
                 done();
             });
           
-            bump.write(fakeFile);      
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bubble an error when the version object key is invalid', (done) => {
+            const invalidMajorKeyFilePath = path.resolve(__dirname, 'files/invalid-major-key.json');
+            const invalidMajorKeyFile = fs.readFileSync(invalidMajorKeyFilePath);
+            fakeFile.contents = invalidMajorKeyFile;
+            fakeFile.path = invalidMajorKeyFilePath;
+            const bump = index();
+            bump.once('error', function(e) {
+                assert.isNotNull(e);
+                assert.deepEqual(e.message, 'Task manifest file contains an invalid version specification: undefined.1.1');
+                done();
+            });
+          
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bubble an error when the version object key is invalid', (done) => {
+            const invalidVersionKeyFilePath = path.resolve(__dirname, 'files/invalid-version-key.json');
+            const invalidVersionKeyFile = fs.readFileSync(invalidVersionKeyFilePath);
+            fakeFile.contents = invalidVersionKeyFile;
+            fakeFile.path = invalidVersionKeyFilePath;
+            const bump = index();
+            bump.once('error', function(e) {
+                assert.isNotNull(e);
+                assert.deepEqual(e.message, 'Error parsing JSON file');
+                done();
+            });
+          
+            bump.write(fakeFile);
             bump.end();
         });
     });

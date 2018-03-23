@@ -26,13 +26,25 @@
     "bump"
   ],
   "scripts": {
-    "build": "npm run lint && npm run enforce-coverage",
-    "coverage": "nyc --nycrc-path ./config/.nycrc npm test",
-    "enforce-coverage": "nyc --nycrc-path ./config/.nycrc --check-coverage true npm test",
+    "build": "npm run lint && npm run coverage:enforce && npm run test:component",
+    "clean": "npm run clean:testresults && npm run clean:coverage",
+    "clean:testresults": "rimraf .testresults",
+    "clean:testresults:unit": "rimraf .testresults/unit/",
+    "clean:testresults:component": "rimraf .testresults/component",
+    "clean:coverage": "rimraf .coverage",
+    "clean:coverage:unit": "rimraf .coverage/unit",
+    "clean:coverage:component": "rimraf .coverage/component",
+    "coverage": "nyc --nycrc-path ./config/.nycrc --report-dir .coverage/unit npm test",
+    "coverage:enforce": "nyc --nycrc-path ./config/.nycrc --report-dir .coverage/unit --check-coverage true npm test",
+    "coverage:open": "npm run coverage && opn ./.coverage/unit/index.html",
+    "coverage:component": "nyc --nycrc-path ./config/.nycrc --report-dir .coverage/component npm run test:component",
+    "coverage:component:enforce": "nyc --nycrc-path ./config/.nycrc --report-dir .coverage/component --check-coverage true npm run test:component",
+    "coverage:component:open": "npm run coverage:component && opn .coverage/component/index.html",
     "lint": "eslint --ignore-path ./config/.eslintignore -c ./config/.eslintrc.js ./**/*.js",
-    "show-coverage": "npm run coverage && opn ./.coverage/index.html",
-    "test": "mocha --opts ./config/mocha.unit.opts ./test/unit/**/*-tests.js",
-    "test:component": "mocha --opts ./config/mocha.component.opts ./test/component/**/*-tests.js"
+    "test": "npm run test:unit",
+    "test:all": "npm run test:unit && npm run test:component",
+    "test:component": "mocha --opts ./config/mocha.component.opts ./test/component/**/*-tests.js",
+    "test:unit": "mocha --opts ./config/mocha.unit.opts ./test/unit/**/*-tests.js"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -41,6 +53,7 @@
     "mocha-multi": "^1.0.1",
     "nyc": "^11.4.1",
     "opn-cli": "^3.1.0",
+    "rimraf": "^2.6.2",
     "sinon": "^4.4.2",
     "vinyl": "^2.1.0"
   },

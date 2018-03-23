@@ -13,7 +13,6 @@
     ],
     "cache": true,
     "all": true,
-    "report-dir": "./.coverage",
     "per-file": true,
     "lines": 100,
     "statements": 100,
