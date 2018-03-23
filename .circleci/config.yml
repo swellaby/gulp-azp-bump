@@ -28,4 +28,3 @@ jobs:
           prefix: coverage
       - store_test_results:
           path: .testresults/unit/xunit.xml
-          prefix: unit
