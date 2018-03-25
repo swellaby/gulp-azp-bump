@@ -27,10 +27,10 @@ module.exports = {
             'error',
             'always'
         ],
-        "no-console": [
+        'no-console': [
             'off'
         ],
-        "max-statements": [
+        'max-statements': [
             'error',
             {
                 'max': 10
@@ -39,12 +39,15 @@ module.exports = {
                 'ignoreTopLevelFunctions': true
             }
         ],
-        "require-yield": [
+        'require-yield': [
             'off'
         ],
         strict: [
             'error',
             'global'
-        ] 
+        ],
+        'no-trailing-spaces': [
+           'error' 
+        ]
     }
 }
