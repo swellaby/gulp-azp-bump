@@ -20,7 +20,7 @@ suite('Module Suite:', () => {
         logInfoStub = sandbox.stub(log, 'info');
         fakeFile = new File({
             contents: new Buffer(JSON.stringify(helpers.validSampleOneTaskContents)),
-            path: helpers.filePath            
+            path: helpers.filePath
         });
     });
 
@@ -32,66 +32,79 @@ suite('Module Suite:', () => {
     suite('Successful bump Suite:', () => {
         test('Should bump patch version when nothing is specified', (done) => {
             const bump = index();
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);    
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
                 done();
             });
-          
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
-    
+
         test('Should bump patch version when invalid type is specified', (done) => {
             const bump = index({ type: 'foobar' });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);    
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
                 done();
             });
-          
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
-    
+
         test('Should correctly bump patch version when patch type is specified', (done) => {
             const bump = index({ type: helpers.patchReleaseType });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);   
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
                 done();
             });
-          
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
-    
+
+        test('Should correctly bump patch version when prerelease type is specified', (done) => {
+            const bump = index({ type: helpers.patchReleaseType });
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                const updatedTask = JSON.parse(newFile.contents.toString());
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
         test('Should correctly bump minor version when minor type is specified', (done) => {
             const bump = index({ type: helpers.minorReleaseType });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMinorVersionObject);   
+                assert.deepEqual(updatedTask.version, helpers.bumpedMinorVersionObject);
                 done();
             });
-          
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
-    
+
         test('Should correctly bump major version when major type is specified', (done) => {
             const bump = index({ type: helpers.majorReleaseType });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionObject);   
+                assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionObject);
                 done();
             });
-          
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
     });
@@ -100,7 +113,7 @@ suite('Module Suite:', () => {
         test('Should return the file when it is null', (done) => {
             fakeFile.contents = null;
             const bump = index();
-            bump.once('data', function(file) {
+            bump.once(helpers.streamDataEventName, function(file) {
                 assert.deepEqual(file, fakeFile);
                 done();
             });
@@ -136,38 +149,38 @@ suite('Module Suite:', () => {
     suite('Log output Suite:', () => {
         test('Should not log output when no quiet option is specified', (done) => {
             const bump = index({ quiet: true });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isFalse(logInfoStub.called);
                 done();
             });
-            
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
 
         test('Should not log output when quiet option is set to true', (done) => {
             const bump = index({ quiet: true });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isFalse(logInfoStub.called);
                 done();
             });
-            
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
 
         test('Should log output when quiet option is set to false', (done) => {
             const bump = index({ quiet: false });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isTrue(logInfoStub.calledWith(helpers.expectedLogMessage));
                 done();
             });
-            
-            bump.write(fakeFile);      
+
+            bump.write(fakeFile);
             bump.end();
         });
-    });  
+    });
 });

@@ -53,6 +53,9 @@ const newVersionMessage = ' to ' + chalk.magenta(bumpedVersion);
 const bumpTypeMessage = ' with type: ' + chalk.blue(defaultReleaseType);
 const logMessage = initialVersionMessage + newVersionMessage + bumpTypeMessage;
 
+const streamDataEventName = 'data';
+const streamErrorEventName = 'error';
+
 module.exports = {
     pluginName: 'gulp-vsts-bump',
     patchReleaseType: patchReleaseType,
@@ -78,5 +81,7 @@ module.exports = {
     bumpedMajorVersionObject: createVersionObject((major + 1).toString(), zeroStr, zeroStr),
     validSampleOneTaskContents: validSampleOneTaskContents,
     invalidSampleOneTaskContents: invalidSampleOneTaskContents,
-    expectedLogMessage: logMessage
+    expectedLogMessage: logMessage,
+    streamDataEventName: streamDataEventName,
+    streamErrorEventName: streamErrorEventName
 };

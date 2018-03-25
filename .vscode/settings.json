@@ -3,7 +3,7 @@
         "npm-debug.log": true,
         ".testresults": true,
         ".coverage": true,
-        "node_modules": true,
+        "node_modules": true,        
         ".nyc_output": true
     },
     "eslint.options": {
@@ -11,5 +11,6 @@
         "ignorePath": "./config/.eslintignore"
     }
 }
+
 // "coverage-gutters.showLineCoverage": true,
 // "coverage-gutters.showRulerCoverage": true,

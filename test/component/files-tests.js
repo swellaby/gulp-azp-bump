@@ -38,67 +38,67 @@ suite('Files Suite:', () => {
     suite('Successful bump Suite:', () => {
         test('Should bump patch version when nothing is specified', (done) => {
             const bump = index();
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
                 assert.deepEqual(JSON.parse(newFile.contents), patchFile);
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });
-    
+
         test('Should bump patch version when invalid type is specified', (done) => {
             const bump = index({ type: 'invalid' });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
                 assert.deepEqual(JSON.parse(newFile.contents), patchFile);
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });
-    
+
         test('Should bump patch version when patch type is specified', (done) => {
             const bump = index({ type: helpers.patchReleaseType });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
                 assert.deepEqual(JSON.parse(newFile.contents), patchFile);
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });
-    
+
         test('Should bump minor version when minor type is specified', (done) => {
             const bump = index({ type: helpers.minorReleaseType });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
                 const minorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/minor.json')));
                 assert.deepEqual(JSON.parse(newFile.contents), minorFile);
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });
-    
+
         test('Should bump major version when major type is specified', (done) => {
             const bump = index({ type: helpers.majorReleaseType });
-            bump.once('data', function(newFile) {
+            bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
                 const majorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/major.json')));
                 assert.deepEqual(JSON.parse(newFile.contents), majorFile);
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });
@@ -119,12 +119,12 @@ suite('Files Suite:', () => {
 
         test('Should bubble an error when the version values are invalid', (done) => {
             const bump = index();
-            bump.once('error', function(e) {
+            bump.once(helpers.streamErrorEventName, function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Task manifest file contains an invalid version specification: foo.1.1');
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });
@@ -135,12 +135,12 @@ suite('Files Suite:', () => {
             fakeFile.contents = invalidMajorKeyFile;
             fakeFile.path = invalidMajorKeyFilePath;
             const bump = index();
-            bump.once('error', function(e) {
+            bump.once(helpers.streamErrorEventName, function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Task manifest file contains an invalid version specification: undefined.1.1');
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });
@@ -151,12 +151,12 @@ suite('Files Suite:', () => {
             fakeFile.contents = invalidVersionKeyFile;
             fakeFile.path = invalidVersionKeyFilePath;
             const bump = index();
-            bump.once('error', function(e) {
+            bump.once(helpers.streamErrorEventName, function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Error parsing JSON file');
                 done();
             });
-          
+
             bump.write(fakeFile);
             bump.end();
         });

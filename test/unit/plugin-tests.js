@@ -182,7 +182,7 @@ suite('plugin Suite:', () => {
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
-            plugin.bump(opts); 
+            plugin.bump(opts);
         });
 
         test('Should invoke the callback with an error when retrieving major throws an error', (done) => {
@@ -197,7 +197,7 @@ suite('plugin Suite:', () => {
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
-            plugin.bump(opts); 
+            plugin.bump(opts);
         });
 
         test('Should invoke the callback with an error when retrieving minor throws an error', (done) => {
@@ -212,7 +212,7 @@ suite('plugin Suite:', () => {
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
-            plugin.bump(opts); 
+            plugin.bump(opts);
         });
 
         test('Should invoke the callback with an error when retrieving patch throws an error', (done) => {
@@ -227,7 +227,7 @@ suite('plugin Suite:', () => {
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
-            plugin.bump(opts); 
+            plugin.bump(opts);
         });
     });
 
