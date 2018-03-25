@@ -19,7 +19,7 @@ jobs:
 
       - run: npm install
       - run: sudo npm i -g sonarqube-scanner
-      - run: PROJECT_VERSION=$(node -e "console.log(require('./package.json').version);")
+      - run: echo 'export PROJECT_VERSION=$(node -e "console.log(require(\'./package.json\').version);")'
       - run: echo $(node -e "console.log(require('./package.json').version);")
 
       - save_cache:
