@@ -5,6 +5,9 @@ jobs:
     docker:
       - image: circleci/node:7.10
 
+    environment:
+        PROJECT_VERSION: ""
+
     working_directory: ~/repo
 
     steps:
@@ -17,7 +20,7 @@ jobs:
       - run: npm install
       - run: sudo npm i -g sonarqube-scanner
       - run: echo export PROJECT_VERSION=$(node -e "console.log(require('./package.json').version);")
-      - run: echo $(node -e "console.log(require('./package.json').version);")
+      - run: PROJECT_VERSION=$(node -e "console.log(require('./package.json').version);")
 
       - save_cache:
           paths:
