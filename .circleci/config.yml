@@ -7,6 +7,9 @@ jobs:
 
     working_directory: ~/repo
 
+    environment:
+        PROJECT_VERSION: "0.0.1"
+
     steps:
       - checkout
       - restore_cache:
@@ -16,7 +19,7 @@ jobs:
 
       - run: npm install
       - run: sudo npm i -g sonarqube-scanner
-      - run: export PROJECT_VERSION=$(node -e "console.log(require('./package.json').version);")
+      - run: PROJECT_VERSION=$(node -e "console.log(require('./package.json').version);")
       - run: echo $(node -e "console.log(require('./package.json').version);")
 
       - save_cache:
