@@ -7,9 +7,6 @@ jobs:
 
     working_directory: ~/repo
 
-    environment:
-        PROJECT_VERSION: "0.0.1"
-
     steps:
       - checkout
       - restore_cache:
