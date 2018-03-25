@@ -6,7 +6,7 @@ jobs:
       - image: circleci/node:7.10
 
     environment:
-        PROJECT_VERSION
+        PROJECT_VERSION:
 
     working_directory: ~/repo
 
