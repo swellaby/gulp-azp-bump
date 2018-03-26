@@ -5,3 +5,4 @@ npm-debug*
 .coverage
 .testresults
 .nyc_output
+*.tgz

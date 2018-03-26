@@ -6,3 +6,7 @@
 test/
 config/
 .nyc_output
+jsconfig.json
+appveyor.yml
+sonar-project.properties
+*.tgz

@@ -7,7 +7,7 @@ const ReadableStream = require('stream').Readable;
 const Sinon = require('sinon');
 
 const helpers = require('../helpers');
-const index = require('../../lib/index');
+const vstsBump = require('../..');
 
 const assert = Chai.assert;
 
@@ -31,7 +31,7 @@ suite('Module Suite:', () => {
 
     suite('Successful bump Suite:', () => {
         test('Should bump patch version when nothing is specified', (done) => {
-            const bump = index();
+            const bump = vstsBump();
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
@@ -44,7 +44,7 @@ suite('Module Suite:', () => {
         });
 
         test('Should bump patch version when invalid type is specified', (done) => {
-            const bump = index({ type: 'foobar' });
+            const bump = vstsBump({ type: 'foobar' });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
@@ -57,7 +57,7 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump patch version when patch type is specified', (done) => {
-            const bump = index({ type: helpers.patchReleaseType });
+            const bump = vstsBump({ type: helpers.patchReleaseType });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
@@ -70,7 +70,7 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump patch version when prerelease type is specified', (done) => {
-            const bump = index({ type: helpers.patchReleaseType });
+            const bump = vstsBump({ type: helpers.patchReleaseType });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
@@ -83,7 +83,7 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump minor version when minor type is specified', (done) => {
-            const bump = index({ type: helpers.minorReleaseType });
+            const bump = vstsBump({ type: helpers.minorReleaseType });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
@@ -96,7 +96,7 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump major version when major type is specified', (done) => {
-            const bump = index({ type: helpers.majorReleaseType });
+            const bump = vstsBump({ type: helpers.majorReleaseType });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
@@ -112,7 +112,7 @@ suite('Module Suite:', () => {
     suite('Failed bump Suite:', () => {
         test('Should return the file when it is null', (done) => {
             fakeFile.contents = null;
-            const bump = index();
+            const bump = vstsBump();
             bump.once(helpers.streamDataEventName, function(file) {
                 assert.deepEqual(file, fakeFile);
                 done();
@@ -123,7 +123,7 @@ suite('Module Suite:', () => {
 
         test('Should bubble an error when the file content is a stream', (done) => {
             fakeFile.contents = new ReadableStream();
-            const bump = index();
+            const bump = vstsBump();
             bump.once('error', function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Streaming not supported');
@@ -135,7 +135,7 @@ suite('Module Suite:', () => {
 
         test('Should bubble an error when a fatal exception occurs while updating the file', (done) => {
             logInfoStub.throws(() => new Error());
-            const bump = index();
+            const bump = vstsBump();
             bump.once('error', function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Error bumping version');
@@ -148,7 +148,7 @@ suite('Module Suite:', () => {
 
     suite('Log output Suite:', () => {
         test('Should not log output when no quiet option is specified', (done) => {
-            const bump = index({ quiet: true });
+            const bump = vstsBump({ quiet: true });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isFalse(logInfoStub.called);
@@ -160,7 +160,7 @@ suite('Module Suite:', () => {
         });
 
         test('Should not log output when quiet option is set to true', (done) => {
-            const bump = index({ quiet: true });
+            const bump = vstsBump({ quiet: true });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isFalse(logInfoStub.called);
@@ -172,7 +172,7 @@ suite('Module Suite:', () => {
         });
 
         test('Should log output when quiet option is set to false', (done) => {
-            const bump = index({ quiet: false });
+            const bump = vstsBump({ quiet: false });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isTrue(logInfoStub.calledWith(helpers.expectedLogMessage));

@@ -1,9 +1,9 @@
 {
   "name": "gulp-vsts-bump",
   "description": "Gulp plugin to support bumping VSTS task manifests",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "repository": {
     "url": "https://github.com/swellaby/gulp-vsts-bump",
     "type": "git"
@@ -26,7 +26,7 @@
     "bump"
   ],
   "scripts": {
-    "build": "npm run lint && npm run coverage:enforce && npm run test:component",
+    "build": "npm run lint && npm run coverage:enforce && npm run coverage:component:enforce",
     "clean": "rimraf .testresults && rimraf .coverage",
     "coverage": "nyc --nycrc-path config/unit/.nycrc npm run test:unit",
     "coverage:enforce": "nyc --nycrc-path config/unit/.nycrc --check-coverage true npm run test:unit",
@@ -42,9 +42,15 @@
     "dev:reset": "npm run clean && rimraf node_modules && npm install",
     "dev:setup": "npm i -g rimraf && npm install && npm run build"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test:unit"
+    }
+  },
   "devDependencies": {
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
+    "husky": "^0.15.0-rc.13",
     "mocha": "^5.0.5",
     "mocha-multi-reporters": "^1.1.7",
     "mocha-sonarqube-reporter": "^1.0.1",

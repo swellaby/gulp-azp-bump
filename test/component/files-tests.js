@@ -8,7 +8,7 @@ const path = require('path');
 const Sinon = require('sinon');
 
 const helpers = require('../helpers');
-const index = require('../../lib/index');
+const vstsBump = require('../..');
 
 const assert = Chai.assert;
 
@@ -37,7 +37,7 @@ suite('Files Suite:', () => {
 
     suite('Successful bump Suite:', () => {
         test('Should bump patch version when nothing is specified', (done) => {
-            const bump = index();
+            const bump = vstsBump();
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
@@ -50,7 +50,7 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump patch version when invalid type is specified', (done) => {
-            const bump = index({ type: 'invalid' });
+            const bump = vstsBump({ type: 'invalid' });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
@@ -63,7 +63,7 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump patch version when patch type is specified', (done) => {
-            const bump = index({ type: helpers.patchReleaseType });
+            const bump = vstsBump({ type: helpers.patchReleaseType });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
@@ -76,7 +76,7 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump minor version when minor type is specified', (done) => {
-            const bump = index({ type: helpers.minorReleaseType });
+            const bump = vstsBump({ type: helpers.minorReleaseType });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
@@ -90,7 +90,7 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump major version when major type is specified', (done) => {
-            const bump = index({ type: helpers.majorReleaseType });
+            const bump = vstsBump({ type: helpers.majorReleaseType });
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
@@ -118,7 +118,7 @@ suite('Files Suite:', () => {
         });
 
         test('Should bubble an error when the version values are invalid', (done) => {
-            const bump = index();
+            const bump = vstsBump();
             bump.once(helpers.streamErrorEventName, function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Task manifest file contains an invalid version specification: foo.1.1');
@@ -134,7 +134,7 @@ suite('Files Suite:', () => {
             const invalidMajorKeyFile = fs.readFileSync(invalidMajorKeyFilePath);
             fakeFile.contents = invalidMajorKeyFile;
             fakeFile.path = invalidMajorKeyFilePath;
-            const bump = index();
+            const bump = vstsBump();
             bump.once(helpers.streamErrorEventName, function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Task manifest file contains an invalid version specification: undefined.1.1');
@@ -150,7 +150,7 @@ suite('Files Suite:', () => {
             const invalidVersionKeyFile = fs.readFileSync(invalidVersionKeyFilePath);
             fakeFile.contents = invalidVersionKeyFile;
             fakeFile.path = invalidVersionKeyFilePath;
-            const bump = index();
+            const bump = vstsBump();
             bump.once(helpers.streamErrorEventName, function(e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Error parsing JSON file');

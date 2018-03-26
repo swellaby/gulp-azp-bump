@@ -4,7 +4,8 @@
         ".testresults": true,
         ".coverage": true,
         "node_modules": true,        
-        ".nyc_output": true
+        ".nyc_output": true,
+        "*.tgz": true
     },
     "eslint.options": {
         "configFile": "./config/.eslintrc.js",
