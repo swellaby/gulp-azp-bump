@@ -55,8 +55,8 @@ gulp.task('tasks:bump', function () {
 ## Options
 
 [npmjs-version-badge]: https://img.shields.io/npm/v/gulp-vsts-bump.svg
-[npmjs-pkg-url]: https://www.npmjs.com/package/guulp-vsts-bump
-[circle-ci-badge]: https://circleci.com/gh/swellaby/gulp-vsts-bump.svg?style=svg
+[npmjs-pkg-url]: https://www.npmjs.com/package/gulp-vsts-bump
+[circle-ci-badge]: https://circleci.com/gh/swellaby/gulp-vsts-bump.svg?style=shield
 [circle-ci-url]: https://circleci.com/gh/swellaby/gulp-vsts-bump
 [gulp-bump-pkg-url]: https://www.npmjs.com/package/gulp-bump
 [coveralls-badge]: https://coveralls.io/repos/github/swellaby/gulp-vsts-bump/badge.svg?branch=master
