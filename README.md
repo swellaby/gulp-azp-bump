@@ -5,14 +5,25 @@ Gulp plugin to bump the version of VSTS tasks  (still in preview, may be broken!
 [![Coverage Status][coveralls-badge]][coveralls-url]  
 
 ## About
-Gulp plugin that supports bumping the versions of VSTS tasks. The VSTS tasks manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files (like package.json). 
+Gulp plugin that supports bumping the versions of VSTS tasks. The VSTS task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files (like package.json).
 
 VSTS task manifest example:
 ```json
 {
-
+    "id": "923e6d5c-0b14-462b-922e-813cbd2ef4cc",
+    "name": "2018vsts",
+    "friendlyName": "Sample Task",
+    "description": "vsts",
+    "author": "me",
+    "version": {
+        "Major": "0",
+        "Minor": "1",
+        "Patch": "0"
+    },
 }
 ```
+
+The VSTS task version cannot be bumped using other gulp plugins without writing a lot of extra code, so we wrote this plugin to provide simple support specifically for VSTS tasks.  
 
 This plugin should only be used for bumping VSTS task manifest files. For bumping any other standard version string in any other type file (like in a package.json file) you should *not* use this plugin, and you should use something like [gulp-bump][gulp-bump-pkg-url] instead.
 
@@ -40,6 +51,8 @@ gulp.task('tasks:bump', function () {
         .pipe(gulp.dest('./'));
 });
 ```
+
+## Options
 
 [npmjs-version-badge]: https://img.shields.io/npm/v/gulp-vsts-bump.svg
 [npmjs-pkg-url]: https://www.npmjs.com/package/guulp-vsts-bump
