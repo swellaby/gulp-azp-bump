@@ -1,24 +1,9 @@
 {
+    "extends": "@swellaby/nyc-config-complete-coverage",    
     "include": [
       "lib/**/*.js"
     ],
     "exclude": [
     ],
-    "reporter": [
-        "html",
-        "lcov",
-        "cobertura",
-        "text",
-        "text-summary"
-    ],
-    "cache": true,
-    "all": true,
-    "per-file": true,
-    "lines": 100,
-    "statements": 100,
-    "functions": 100,
-    "branches": 100,
     "report-dir": ".coverage/component"
 }
-
- 

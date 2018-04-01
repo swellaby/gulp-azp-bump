@@ -1,7 +1,7 @@
 {
   "name": "gulp-vsts-bump",
   "description": "Gulp plugin to support bumping VSTS task manifests",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
@@ -28,18 +28,18 @@
   "scripts": {
     "build": "npm run lint && npm run coverage:enforce && npm run coverage:component:enforce",
     "clean": "rimraf .testresults && rimraf .coverage",
-    "coverage": "nyc --nycrc-path config/unit/.nycrc npm run test:unit",
-    "coverage:enforce": "nyc --nycrc-path config/unit/.nycrc --check-coverage true npm run test:unit",
+    "coverage": "nyc --nycrc-path config/unit/.nycrc --check-coverage false npm run test:unit",
+    "coverage:enforce": "nyc --nycrc-path config/unit/.nycrc npm run test:unit",
     "coverage:open": "npm run coverage && opn .coverage/unit/index.html",
-    "coverage:component": "nyc --nycrc-path config/component/.nycrc npm run test:component",
-    "coverage:component:enforce": "nyc --nycrc-path config/component/.nycrc --check-coverage true npm run test:component",
+    "coverage:component": "nyc --nycrc-path config/component/.nycrc --check-coverage false npm run test:component",
+    "coverage:component:enforce": "nyc --nycrc-path config/component/.nycrc npm run test:component",
     "coverage:component:open": "npm run coverage:component && opn .coverage/component/index.html",
     "lint": "eslint --ignore-path config/.eslintignore -c config/.eslintrc.js ./**/*.js",
     "test": "npm run test:unit",
     "test:all": "npm run test:unit && npm run test:component",
     "test:component": "mocha --opts config/component/mocha.opts",
     "test:unit": "mocha --opts config/unit/mocha.opts",
-    "dev:reset": "npm run clean && rimraf node_modules && npm install",
+    "dev:reset": "npm i -g rimraf && npm run clean && rimraf node_modules && npm install",
     "dev:setup": "npm i -g rimraf && npm install && npm run build"
   },
   "husky": {
@@ -49,6 +49,7 @@
     }
   },
   "devDependencies": {
+    "@swellaby/nyc-config-complete-coverage": "0.0.2",
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
     "husky": "^0.15.0-rc.13",
