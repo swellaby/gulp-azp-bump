@@ -245,7 +245,7 @@ suite('plugin Suite:', () => {
                 assert.deepEqual(taskJson.version.Major, helpers.majorVersionStr);
                 assert.deepEqual(taskJson.version.Minor, helpers.minorVersionStr);
                 assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion.toString());
-                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson)));
+                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson, null, 2)));
                 assert.isTrue(semverIncStub.calledWith(helpers.initialVersion, helpers.defaultReleaseType));
                 done();
             };
