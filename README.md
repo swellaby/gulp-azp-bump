@@ -2,7 +2,9 @@
 Gulp plugin to bump the version of VSTS tasks  (still in preview, may be broken!)  
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
-[![Coverage Status][coveralls-badge]][coveralls-url]  
+[![Coverage Status][coveralls-badge]][coveralls-url]
+[![AppVeyor Status][appveyor-badge]][appveyor-url]
+[![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url]  
 
 ## About
 Gulp plugin that supports bumping the versions of VSTS tasks. The VSTS task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files (like package.json).
@@ -34,7 +36,7 @@ const gulp = require('gulp');
 const vstsBump = require('gulp-vsts-bump');
 
 gulp.task('tasks:bump', function () {
-    return gulp.src(['./tasks/**/task.json'])
+    return gulp.src(['./tasks/**/task.json'], { base: './' })
         .pipe(vstsBump())
         .pipe(gulp.dest('./'));
 });
@@ -46,7 +48,7 @@ const gulp = require('gulp');
 const vstsBump = require('gulp-vsts-bump');
 
 gulp.task('tasks:bump', function () {
-    return gulp.src(['./tasks/**/task.json'])
+    return gulp.src(['./tasks/**/task.json'], { base: './' })
         .pipe(vstsBump({ type: 'minor' }))
         .pipe(gulp.dest('./'));
 });
@@ -76,6 +78,10 @@ MIT - see license details [here][license-url]
 [npmjs-pkg-url]: https://www.npmjs.com/package/gulp-vsts-bump
 [circle-ci-badge]: https://circleci.com/gh/swellaby/gulp-vsts-bump.svg?style=shield
 [circle-ci-url]: https://circleci.com/gh/swellaby/gulp-vsts-bump
+[appveyor-badge]: https://ci.appveyor.com/api/projects/status/8574rkisuw157e8h?svg=true
+[appveyor-url]: https://ci.appveyor.com/project/swellaby/gulp-vsts-bump
+[sonar-quality-gate-badge]: https://sonarcloud.io/api/project_badges/measure?project=swellaby%3Agulp-vsts-bump&metric=alert_status
+[sonar-url]: https://sonarcloud.io/dashboard?id=swellaby%3Agulp-vsts-bump
 [gulp-bump-pkg-url]: https://www.npmjs.com/package/gulp-bump
 [coveralls-badge]: https://coveralls.io/repos/github/swellaby/gulp-vsts-bump/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/swellaby/gulp-vsts-bump?branch=master
