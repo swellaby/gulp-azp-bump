@@ -7,6 +7,17 @@ const minorReleaseType = 'minor';
 const majorReleaseType = 'major';
 const defaultReleaseType = patchReleaseType;
 
+const defaultJsonIndent = 2;
+const stringVersionPropertyType = 'string';
+const numberVersionPropertyType = 'number';
+const defaultVersionPropertyType = numberVersionPropertyType;
+
+const defaultOptions = {
+    type: defaultReleaseType,
+    indent: defaultJsonIndent,
+    versionPropertyType: defaultVersionPropertyType
+};
+
 const major = 0;
 const minor = 8;
 const patch = 2;
@@ -33,6 +44,7 @@ const createSampleTaskContents = ((major, minor, patch) => {
 });
 
 const validSampleOneTaskContents = createSampleTaskContents(majorStr, minorStr, patchStr);
+const validSampleOneNumericVersionTaskContents = createSampleTaskContents(major, minor, patch);
 const invalidSampleOneTaskContents = createSampleTaskContents('abc', minorStr, patchStr);
 const filePath = './src/foo.js';
 
@@ -76,12 +88,21 @@ module.exports = {
     createSampleTaskContents: createSampleTaskContents,
     createVersionObject: createVersionObject,
     initialVersionObject: createVersionObject(majorStr, minorStr, patchStr),
-    bumpedPatchVersionObject: createVersionObject(majorStr, minorStr, (patch + 1).toString()),
-    bumpedMinorVersionObject: createVersionObject(majorStr, (minor + 1).toString(), zeroStr),
-    bumpedMajorVersionObject: createVersionObject((major + 1).toString(), zeroStr, zeroStr),
+    bumpedPatchVersionStringObject: createVersionObject(majorStr, minorStr, (patch + 1).toString()),
+    bumpedMinorVersionStringObject: createVersionObject(majorStr, (minor + 1).toString(), zeroStr),
+    bumpedMajorVersionStringObject: createVersionObject((major + 1).toString(), zeroStr, zeroStr),
+    bumpedPatchVersionNumberObject: createVersionObject(major, minor, (patch + 1)),
+    bumpedMinorVersionNumberObject: createVersionObject(major, (minor + 1), 0),
+    bumpedMajorVersionNumberObject: createVersionObject((major + 1), 0, 0),
     validSampleOneTaskContents: validSampleOneTaskContents,
+    validSampleOneNumericVersionTaskContents: validSampleOneNumericVersionTaskContents,
     invalidSampleOneTaskContents: invalidSampleOneTaskContents,
     expectedLogMessage: logMessage,
     streamDataEventName: streamDataEventName,
-    streamErrorEventName: streamErrorEventName
+    streamErrorEventName: streamErrorEventName,
+    defaultJsonIndent: defaultJsonIndent,
+    stringVersionPropertyType: stringVersionPropertyType,
+    numberVersionPropertyType: numberVersionPropertyType,
+    defaultVersionPropertyType: defaultVersionPropertyType,
+    defaultOptions: defaultOptions
 };

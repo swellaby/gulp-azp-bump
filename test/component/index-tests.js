@@ -29,13 +29,24 @@ suite('Module Suite:', () => {
         fakeFile = null;
     });
 
-    suite('Successful bump Suite:', () => {
+    suite('Successful bump string version Suite:', () => {
+        let opts;
+
+        setup(() => {
+            opts = {};
+            opts.versionPropertyType = helpers.stringVersionPropertyType;
+        });
+
+        teardown(() => {
+            opts = null;
+        });
+
         test('Should bump patch version when nothing is specified', (done) => {
-            const bump = vstsBump();
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
                 done();
             });
 
@@ -44,11 +55,12 @@ suite('Module Suite:', () => {
         });
 
         test('Should bump patch version when invalid type is specified', (done) => {
-            const bump = vstsBump({ type: 'foobar' });
+            opts.type = 'foobar';
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
                 done();
             });
 
@@ -57,11 +69,12 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump patch version when patch type is specified', (done) => {
-            const bump = vstsBump({ type: helpers.patchReleaseType });
+            opts.type = helpers.patchReleaseType;
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
                 done();
             });
 
@@ -70,11 +83,12 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump patch version when prerelease type is specified', (done) => {
-            const bump = vstsBump({ type: helpers.patchReleaseType });
+            opts.type = 'prerelease';
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionObject);
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
                 done();
             });
 
@@ -83,11 +97,12 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump minor version when minor type is specified', (done) => {
-            const bump = vstsBump({ type: helpers.minorReleaseType });
+            opts.type = helpers.minorReleaseType;
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMinorVersionObject);
+                assert.deepEqual(updatedTask.version, helpers.bumpedMinorVersionStringObject);
                 done();
             });
 
@@ -96,11 +111,108 @@ suite('Module Suite:', () => {
         });
 
         test('Should correctly bump major version when major type is specified', (done) => {
-            const bump = vstsBump({ type: helpers.majorReleaseType });
+            opts.type = helpers.majorReleaseType;
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionObject);
+                assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionStringObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+    });
+
+    suite('Successful bump number version Suite:', () => {
+        let opts;
+
+        setup(() => {
+            opts = {};
+            opts.versionPropertyType = helpers.defaultVersionPropertyType;
+        });
+
+        teardown(() => {
+            opts = null;
+        });
+
+        test('Should bump patch version when nothing is specified', (done) => {
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                const updatedTask = JSON.parse(newFile.contents.toString());
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bump patch version when invalid type is specified', (done) => {
+            opts.type = 'foobar';
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                const updatedTask = JSON.parse(newFile.contents.toString());
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should correctly bump patch version when patch type is specified', (done) => {
+            opts.type = helpers.patchReleaseType;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                const updatedTask = JSON.parse(newFile.contents.toString());
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should correctly bump patch version when prerelease type is specified', (done) => {
+            opts.type = 'prerelease';
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                const updatedTask = JSON.parse(newFile.contents.toString());
+                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should correctly bump minor version when minor type is specified', (done) => {
+            opts.type = helpers.minorReleaseType;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                const updatedTask = JSON.parse(newFile.contents.toString());
+                assert.deepEqual(updatedTask.version, helpers.bumpedMinorVersionNumberObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should correctly bump major version when major type is specified', (done) => {
+            opts.type = helpers.majorReleaseType;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                const updatedTask = JSON.parse(newFile.contents.toString());
+                assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionNumberObject);
                 done();
             });
 

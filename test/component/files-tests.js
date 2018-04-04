@@ -13,18 +13,18 @@ const vstsBump = require('../..');
 const assert = Chai.assert;
 
 suite('Files Suite:', () => {
-    const initialFilePath = path.resolve(__dirname, 'files/task.json');
-    const initialFile = fs.readFileSync(initialFilePath);
+    const initialStringFilePath = path.resolve(__dirname, 'files/string/task.json');
+    const initialStringFile = fs.readFileSync(initialStringFilePath);
     let fakeFile = new File();
     const sandbox = Sinon.sandbox.create();
-    const patchFilePath = path.resolve(__dirname, 'files/patch.json');
-    const patchFile = JSON.parse(fs.readFileSync(patchFilePath, 'utf8'));
+    const patchStringFilePath = path.resolve(__dirname, 'files/string/patch.json');
+    const patchStringFile = JSON.parse(fs.readFileSync(patchStringFilePath, 'utf8'));
 
     setup(() => {
         sandbox.stub(log, 'info');
         fakeFile = new File({
-            contents: initialFile,
-            path: initialFilePath,
+            contents: initialStringFile,
+            path: initialStringFilePath,
             base: 'test/',
             cwd: 'test/'
         });
@@ -35,13 +35,24 @@ suite('Files Suite:', () => {
         fakeFile = null;
     });
 
-    suite('Successful bump Suite:', () => {
+    suite('Successful string bump Suite:', () => {
+        let opts;
+
+        setup(() => {
+            opts = {};
+            opts.versionPropertyType = helpers.stringVersionPropertyType;
+        });
+
+        teardown(() => {
+            opts = null;
+        });
+
         test('Should bump patch version when nothing is specified', (done) => {
-            const bump = vstsBump();
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
-                assert.deepEqual(JSON.parse(newFile.contents), patchFile);
+                assert.deepEqual(JSON.parse(newFile.contents), patchStringFile);
                 done();
             });
 
@@ -50,11 +61,12 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump patch version when invalid type is specified', (done) => {
-            const bump = vstsBump({ type: 'invalid' });
+            opts.type = 'invalid';
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
-                assert.deepEqual(JSON.parse(newFile.contents), patchFile);
+                assert.deepEqual(JSON.parse(newFile.contents), patchStringFile);
                 done();
             });
 
@@ -63,11 +75,12 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump patch version when patch type is specified', (done) => {
-            const bump = vstsBump({ type: helpers.patchReleaseType });
+            opts.type = helpers.patchReleaseType;
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
-                assert.deepEqual(JSON.parse(newFile.contents), patchFile);
+                assert.deepEqual(JSON.parse(newFile.contents), patchStringFile);
                 done();
             });
 
@@ -76,11 +89,12 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump minor version when minor type is specified', (done) => {
-            const bump = vstsBump({ type: helpers.minorReleaseType });
+            opts.type = helpers.minorReleaseType;
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
-                const minorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/minor.json')));
+                const minorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/string/minor.json')));
                 assert.deepEqual(JSON.parse(newFile.contents), minorFile);
                 done();
             });
@@ -90,11 +104,104 @@ suite('Files Suite:', () => {
         });
 
         test('Should bump major version when major type is specified', (done) => {
-            const bump = vstsBump({ type: helpers.majorReleaseType });
+            opts.type = helpers.majorReleaseType;
+            const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
                 assert.isNotNull(newFile.path);
-                const majorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/major.json')));
+                const majorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/string/major.json')));
+                assert.deepEqual(JSON.parse(newFile.contents), majorFile);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+    });
+
+    suite('Successful number bump Suite:', () => {
+        let opts;
+        const patchNumberFilePath = path.resolve(__dirname, 'files/number/patch.json');
+        const patchNumberFile = JSON.parse(fs.readFileSync(patchNumberFilePath, 'utf8'));
+
+        setup(() => {
+            opts = {};
+            opts.versionPropertyType = helpers.defaultVersionPropertyType;
+            // fakeFile = new File({
+            //     contents: initialStringFile,
+            //     path: initialStringFilePath,
+            //     base: 'test/',
+            //     cwd: 'test/'
+            // });
+        });
+
+        teardown(() => {
+            opts = null;
+        });
+
+        test('Should bump patch version when nothing is specified', (done) => {
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.isNotNull(newFile.path);
+                assert.deepEqual(JSON.parse(newFile.contents), patchNumberFile);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bump patch version when invalid type is specified', (done) => {
+            opts.type = 'invalid';
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.isNotNull(newFile.path);
+                assert.deepEqual(JSON.parse(newFile.contents), patchNumberFile);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bump patch version when patch type is specified', (done) => {
+            opts.type = helpers.patchReleaseType;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.isNotNull(newFile.path);
+                assert.deepEqual(JSON.parse(newFile.contents), patchNumberFile);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bump minor version when minor type is specified', (done) => {
+            opts.type = helpers.minorReleaseType;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.isNotNull(newFile.path);
+                const minorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/number/minor.json')));
+                assert.deepEqual(JSON.parse(newFile.contents), minorFile);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should bump major version when major type is specified', (done) => {
+            opts.type = helpers.majorReleaseType;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.isNotNull(newFile.path);
+                const majorFile = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'files/number/major.json')));
                 assert.deepEqual(JSON.parse(newFile.contents), majorFile);
                 done();
             });

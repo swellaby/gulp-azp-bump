@@ -8,37 +8,36 @@ const through = require('through2');
 
 const helpers = require('../helpers');
 const index = require('../../lib/index');
+const utils = require('../../lib/utils');
 const assert = Chai.assert;
 
-suite('plugin Suite:', () => {
+suite('index Suite:', () => {
     const sandbox = Sinon.sandbox.create();
     let opts;
     let fileStub;
     let callback;
-    let semverIncStub;
     let semverValidStub;
-    let semverMajorStub;
-    let semverMinorStub;
-    let semverPatchStub;
     let throughObjStub;
     let fileIsNullStub;
     let fileIsStreamStub;
     let jsonParseStub;
     let jsonStringifySpy;
     let logInfoStub;
+    let utilsValidateOptionsStub;
+    let utilsGetTaskVersionStub;
+    let utilsBumpVersionStub;
 
-    const stubSemverFunctions = () => {
-        semverIncStub = sandbox.stub(semver, 'inc').callsFake(() => helpers.bumpedVersion);
-        semverValidStub = sandbox.stub(semver, 'valid').callsFake(() => { return true; });
-        semverMajorStub = sandbox.stub(semver, 'major').callsFake(() => helpers.majorVersion);
-        semverMinorStub = sandbox.stub(semver, 'minor').callsFake(() => helpers.minorVersion);
-        semverPatchStub = sandbox.stub(semver, 'patch').callsFake(() => helpers.patchVersion);
+    const stubUtilsFunctions = () => {
+        utilsValidateOptionsStub = sandbox.stub(utils, 'validateOptions').callsFake(() => helpers.defaultOptions);
+        utilsGetTaskVersionStub = sandbox.stub(utils, 'getTaskVersion').callsFake(() => helpers.initialVersion);
+        utilsBumpVersionStub = sandbox.stub(utils, 'bumpVersion').callsFake(() => helpers.bumpedVersion);
     };
 
     setup(() => {
         opts = { quiet: true };
+        stubUtilsFunctions();
         fileStub = helpers.validSampleOneTaskFile;
-        stubSemverFunctions();
+        semverValidStub = sandbox.stub(semver, 'valid').callsFake(() => { return true; });
         throughObjStub = sandbox.stub(through, 'obj');
         fileIsNullStub = sandbox.stub(fileStub, 'isNull').callsFake(() => false);
         fileIsStreamStub = sandbox.stub(fileStub, 'isStream').callsFake(() => false);
@@ -53,44 +52,15 @@ suite('plugin Suite:', () => {
         fileStub = null;
     });
 
-    suite('Default options Suite:', () => {
-        const throughStub = {};
-
-        setup(() => {
-            throughObjStub.callsFake(() => throughStub);
-        });
-
-        test('Should set release type to default if no type is specified', () => {
+    suite('bump Suite:', () => {
+        test('Should validate options with utils function', () => {
             index(opts);
-            assert.deepEqual(opts.type, helpers.defaultReleaseType);
-        });
-
-        test('Should set release type to default if invalid type is specified', () => {
-            opts.type = 'bad';
-            semverIncStub.callsFake(() => false);
-            index(opts);
-            assert.deepEqual(opts.type, helpers.defaultReleaseType);
-        });
-
-        test('Should use specified release type when patch type is specified', () => {
-            opts.type = helpers.patchReleaseType;
-            index(opts);
-            assert.deepEqual(opts.type, helpers.patchReleaseType);
-        });
-
-        test('Should use specified release type when minor type is specified', () => {
-            opts.type = helpers.minorReleaseType;
-            index(opts);
-            assert.deepEqual(opts.type, helpers.minorReleaseType);
-        });
-
-        test('Should use specified release type when major type is specified', () => {
-            opts.type = helpers.majorReleaseType;
-            index(opts);
-            assert.deepEqual(opts.type, helpers.majorReleaseType);
+            assert.isTrue(utilsValidateOptionsStub.calledWith(opts));
         });
 
         test('Should return a stream', () => {
+            const throughStub = {};
+            throughObjStub.callsFake(() => throughStub);
             const stream = index();
             assert.isTrue(throughObjStub.called);
             assert.deepEqual(stream, throughStub);
@@ -152,16 +122,18 @@ suite('plugin Suite:', () => {
         });
 
         test('Should invoke the callback with an error when the file version is invalid', (done) => {
+            const invalidVersion = 'abc.' + helpers.minorVersion + '.' + helpers.patchVersion;
             const invalidVersionErrorMessagePrefix = 'Task manifest file contains an invalid version specification: ';
-            const invalidVersionErrorMessage = invalidVersionErrorMessagePrefix + 'abc.' + helpers.minorVersion + '.' + helpers.patchVersion;
+            const invalidVersionErrorMessage = invalidVersionErrorMessagePrefix + invalidVersion;
+            semverValidStub.callsFake(() => false);
+            jsonParseStub.callsFake(() => helpers.invalidSampleOneTaskContents);
+            utilsGetTaskVersionStub.callsFake(() => invalidVersion);
             callback = (err, data) => {
                 assert.isUndefined(data);
                 assert.deepEqual(err.message, invalidVersionErrorMessage);
                 assert.deepEqual(err.plugin, helpers.pluginName);
                 done();
             };
-            semverValidStub.callsFake(() => false);
-            jsonParseStub.callsFake(() => helpers.invalidSampleOneTaskContents);
             throughObjStub.yields(helpers.invalidSampleOneTaskFile, null, callback);
             index(opts);
         });
@@ -170,8 +142,8 @@ suite('plugin Suite:', () => {
     suite('Update file errors Suite:', () => {
         const errorMessage = 'Error bumping version';
 
-        test('Should invoke the callback with an error when the inc throws an error', (done) => {
-            semverIncStub.throws(() => new Error());
+        test('Should invoke the callback with an error when bumping version throws an error', (done) => {
+            utilsBumpVersionStub.throws(() => new Error());
             callback = (err, data) => {
                 assert.isNotNull(err);
                 assert.isUndefined(data);
@@ -185,38 +157,8 @@ suite('plugin Suite:', () => {
             index(opts);
         });
 
-        test('Should invoke the callback with an error when retrieving major throws an error', (done) => {
-            semverMajorStub.throws(() => new Error());
-            callback = (err, data) => {
-                assert.isNotNull(err);
-                assert.isUndefined(data);
-                assert.deepEqual(err.message, errorMessage);
-                assert.deepEqual(err.plugin, helpers.pluginName);
-                assert.isTrue(err.showStack);
-                assert.deepEqual(err.fileName, helpers.filePath);
-                done();
-            };
-            throughObjStub.yields(fileStub, null, callback);
-            index(opts);
-        });
-
-        test('Should invoke the callback with an error when retrieving minor throws an error', (done) => {
-            semverMinorStub.throws(() => new Error());
-            callback = (err, data) => {
-                assert.isNotNull(err);
-                assert.isUndefined(data);
-                assert.deepEqual(err.message, errorMessage);
-                assert.deepEqual(err.plugin, helpers.pluginName);
-                assert.isTrue(err.showStack);
-                assert.deepEqual(err.fileName, helpers.filePath);
-                done();
-            };
-            throughObjStub.yields(fileStub, null, callback);
-            index(opts);
-        });
-
-        test('Should invoke the callback with an error when retrieving patch throws an error', (done) => {
-            semverPatchStub.throws(() => new Error());
+        test('Should invoke the callback with an error when logging an error', (done) => {
+            logInfoStub.throws(() => new Error());
             callback = (err, data) => {
                 assert.isNotNull(err);
                 assert.isUndefined(data);
@@ -232,21 +174,46 @@ suite('plugin Suite:', () => {
     });
 
     suite('Update file Suite:', () => {
-        const bumpedPatchVersion = helpers.patchVersion + 1;
-        setup(() => {
-            semverPatchStub.callsFake(() => bumpedPatchVersion);
-        });
+        const bumpedPatchVersion = (helpers.patch + 1);
 
-        test('Should correctly bump the file', (done) => {
+        test('Should correctly bump the file with string property type', (done) => {
+            opts.versionPropertyType = helpers.stringVersionPropertyType;
             const taskJson = helpers.createSampleTaskContents(helpers.majorVersionStr, helpers.minorVersionStr, helpers.patchVersionStr);
+            utilsBumpVersionStub.callsFake(() => {
+                taskJson.version.Patch = bumpedPatchVersion.toString();
+                return helpers.bumpedVersion;
+            });
+
             callback = (err, data) => {
                 assert.isNull(err);
                 assert.isTrue(jsonStringifySpy.calledWith(taskJson));
                 assert.deepEqual(taskJson.version.Major, helpers.majorVersionStr);
                 assert.deepEqual(taskJson.version.Minor, helpers.minorVersionStr);
                 assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion.toString());
-                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson, null, 2)));
-                assert.isTrue(semverIncStub.calledWith(helpers.initialVersion, helpers.defaultReleaseType));
+                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson, null, helpers.defaultJsonIndent)));
+                assert.isTrue(utilsBumpVersionStub.calledWith(taskJson, helpers.initialVersion, helpers.defaultOptions));
+                done();
+            };
+            jsonParseStub.callsFake(() => taskJson);
+            throughObjStub.yields(fileStub, null, callback);
+            index(opts);
+        });
+
+        test('Should correctly bump the file with number property type', (done) => {
+            const taskJson = helpers.createSampleTaskContents(helpers.majorVersion, helpers.minorVersion, helpers.patchVersion);
+            utilsBumpVersionStub.callsFake(() => {
+                taskJson.version.Patch = bumpedPatchVersion;
+                return helpers.bumpedVersion;
+            });
+
+            callback = (err, data) => {
+                assert.isNull(err);
+                assert.isTrue(jsonStringifySpy.calledWith(taskJson));
+                assert.deepEqual(taskJson.version.Major, helpers.majorVersion);
+                assert.deepEqual(taskJson.version.Minor, helpers.minorVersion);
+                assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion);
+                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson, null, helpers.defaultJsonIndent)));
+                assert.isTrue(utilsBumpVersionStub.calledWith(taskJson, helpers.initialVersion, helpers.defaultOptions));
                 done();
             };
             jsonParseStub.callsFake(() => taskJson);
@@ -268,6 +235,14 @@ suite('plugin Suite:', () => {
 
         test('Should log output when options sets quiet prop to 0', (done) => {
             opts.quiet = 0;
+            utilsValidateOptionsStub.callsFake(() => {
+                return {
+                    type: helpers.defaultReleaseType,
+                    indent: helpers.defaultJsonIndent,
+                    versionPropertyType: helpers.defaultVersionPropertyType,
+                    quiet: -1
+                };
+            });
             callback = () => {
                 assert.isTrue(logInfoStub.called);
                 done();
@@ -278,6 +253,14 @@ suite('plugin Suite:', () => {
 
         test('Should log output when options sets quiet prop to negative value', (done) => {
             opts.quiet = -1;
+            utilsValidateOptionsStub.callsFake(() => {
+                return {
+                    type: helpers.defaultReleaseType,
+                    indent: helpers.defaultJsonIndent,
+                    versionPropertyType: helpers.defaultVersionPropertyType,
+                    quiet: -1
+                };
+            });
             callback = () => {
                 assert.isTrue(logInfoStub.called);
                 done();
@@ -288,6 +271,14 @@ suite('plugin Suite:', () => {
 
         test('Should log output when options sets quiet prop to string value', (done) => {
             opts.quiet = 'true';
+            utilsValidateOptionsStub.callsFake(() => {
+                return {
+                    type: helpers.defaultReleaseType,
+                    indent: helpers.defaultJsonIndent,
+                    versionPropertyType: helpers.defaultVersionPropertyType,
+                    quiet: 'true'
+                };
+            });
             callback = () => {
                 assert.isTrue(logInfoStub.called);
                 done();
@@ -298,6 +289,14 @@ suite('plugin Suite:', () => {
 
         test('Should log output when quiet is false', (done) => {
             opts.quiet = false;
+            utilsValidateOptionsStub.callsFake(() => {
+                return {
+                    type: helpers.defaultReleaseType,
+                    indent: helpers.defaultJsonIndent,
+                    versionPropertyType: helpers.defaultVersionPropertyType,
+                    quiet: false
+                };
+            });
             callback = () => {
                 assert.isTrue(logInfoStub.called);
                 done();
@@ -308,6 +307,14 @@ suite('plugin Suite:', () => {
 
         test('Should not log output when options has quiet prop set to true', (done) => {
             opts.quiet = true;
+            utilsValidateOptionsStub.callsFake(() => {
+                return {
+                    type: helpers.defaultReleaseType,
+                    indent: helpers.defaultJsonIndent,
+                    versionPropertyType: helpers.defaultVersionPropertyType,
+                    quiet: true
+                };
+            });
             callback = () => {
                 assert.isFalse(logInfoStub.called);
                 done();
