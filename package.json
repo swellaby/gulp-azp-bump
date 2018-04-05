@@ -1,7 +1,7 @@
 {
   "name": "gulp-vsts-bump",
   "description": "Gulp plugin to support bumping VSTS task manifests",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "build": "npm run lint && npm run coverage:enforce && npm run coverage:component:enforce",
-    "clean": "rimraf .testresults && rimraf .coverage",
+    "clean": "rimraf .testresults .coverage",
     "coverage": "nyc --nycrc-path config/unit/.nycrc --check-coverage false npm run test:unit",
     "coverage:enforce": "nyc --nycrc-path config/unit/.nycrc npm run test:unit",
     "coverage:open": "npm run coverage && opn .coverage/unit/index.html",
@@ -42,8 +42,8 @@
     "test:all": "npm run test:unit && npm run test:component",
     "test:component": "mocha --opts config/component/mocha.opts",
     "test:unit": "mocha --opts config/unit/mocha.opts",
-    "dev:reset": "npm i -g rimraf && npm run clean && rimraf node_modules && npm install",
-    "dev:setup": "npm i -g rimraf && npm install && npm run build"
+    "dev:reset": "npm run clean && node -e \"require('rimraf').sync('node_modules');\" && npm run dev:setup",
+    "dev:setup": "npm install && npm run build"
   },
   "husky": {
     "hooks": {
@@ -60,7 +60,8 @@
     "mocha-sonarqube-reporter": "^1.0.1",
     "nyc": "^11.6.0",
     "opn-cli": "^3.1.0",
-    "sinon": "^4.4.8",
+    "rimraf": "^2.6.2",
+    "sinon": "^4.5.0",
     "vinyl": "^2.1.0"
   },
   "dependencies": {
