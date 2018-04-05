@@ -56,15 +56,37 @@ gulp.task('tasks:bump', function () {
 
 ## Options
 
-- `type`: string  
+- `type`: string (default value: `'patch'`)
 Use to specify the release type you want to bump. Expected values are `major`, `minor`, or `patch` (default value). Technically any valid semver type (including prerelease, etc.) will be accepted, but you shouldn't use anything other than `major`, `minor`, or `patch` since that is all VSTS tasks can store.
 
-- `quiet`: boolean  
+- `quiet`: boolean (default value: `false`)  
 Set this to `true` if you want to supress the log output. For example:
 
 ```js
 ...
     .pipe(vstsBump({ quiet: true }))   
+    .pipe(gulp.dest('./'));
+...
+
+```
+
+- `versionPropertyType`: string (default value: `'number'`)  
+Allowed values: `'number'` (default) and `'string'`. Some VSTS tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (VSTS supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to `'string'` in the configuration options: 
+
+```js
+...
+    .pipe(vstsBump({ versionPropertyType: 'string' }))   
+    .pipe(gulp.dest('./'));
+...
+
+```
+
+- `indent`: number (default value: `2`)  
+Allowed values: any positive whole number between `1` and `10` inclusive. This controls the indent value to use in the updated task.json file(s)
+
+```js
+...
+    .pipe(vstsBump({ indent: 4 }))   
     .pipe(gulp.dest('./'));
 ...
 
