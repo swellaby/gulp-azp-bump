@@ -63,10 +63,7 @@ Use to specify the release type you want to bump. Expected values are `major`, `
 Set this to `true` if you want to supress the log output. For example:
 
 ```js
-...
-    .pipe(vstsBump({ quiet: true }))   
-    .pipe(gulp.dest('./'));
-...
+    .pipe(vstsBump({ quiet: true }))
 
 ```  
 
@@ -74,34 +71,21 @@ Set this to `true` if you want to supress the log output. For example:
 Allowed values: `'number'` (default) and `'string'`. Some VSTS tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (VSTS supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to `'string'` in the configuration options: 
 
 ```js
-...
-    .pipe(vstsBump({ versionPropertyType: 'string' }))   
-    .pipe(gulp.dest('./'));
-...
-
+    .pipe(vstsBump({ versionPropertyType: 'string' }))
 ```  
 
 - `indent`: number (default value: `2`) OR string  
-Allowed values: any positive whole number between `1` and `10` inclusive, or the tab character `'\t'`. This controls the spacing indent value to use in the updated task.json file(s). If a number is specified each level in the json file will be indented by that amount of space characters, or if the tab `'\t'` character is specified then each level will be indented with a tab. 
+Allowed values: any positive whole number between `1` and `10` inclusive, or the tab character `'\t'`. This controls the spacing indent value to use in the updated task.json file(s). If a number is specified, each level in the json file will be indented by that amount of space characters. Alternatively, if the tab `'\t'` character is specified, then each level will be indented with a tab. 
 
 For example to indent by 4 spaces:  
 ```js
-...
-    .pipe(vstsBump({ indent: 4 }))   
-    .pipe(gulp.dest('./'));
-...
-
+    .pipe(vstsBump({ indent: 4 }))
 ```  
 
 Or if you prefer a tab:  
 ```js
-...
-    .pipe(vstsBump({ indent: '\t' }))   
-    .pipe(gulp.dest('./'));
-...
-
+    .pipe(vstsBump({ indent: '\t' }))
 ```
-
 
 ## License
 MIT - see license details [here][license-url] 
