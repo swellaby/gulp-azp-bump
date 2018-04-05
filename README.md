@@ -2,8 +2,8 @@
 Gulp plugin to bump the version of VSTS tasks  (still in preview, may be broken!)  
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
-[![Coverage Status][coveralls-badge]][coveralls-url]
 [![AppVeyor Status][appveyor-badge]][appveyor-url]
+[![Coverage Status][coveralls-badge]][coveralls-url]
 [![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url]  
 
 ## About
