@@ -14,6 +14,7 @@ const assert = Chai.assert;
 suite('Module Suite:', () => {
     let fakeFile = new File();
     let logInfoStub;
+    let opts;
     const sandbox = Sinon.sandbox.create();
 
     setup(() => {
@@ -22,23 +23,18 @@ suite('Module Suite:', () => {
             contents: new Buffer(JSON.stringify(helpers.validSampleOneTaskContents)),
             path: helpers.filePath
         });
+        opts = {};
     });
 
     teardown(() => {
         sandbox.restore();
         fakeFile = null;
+        opts = null;
     });
 
     suite('Successful bump string version Suite:', () => {
-        let opts;
-
         setup(() => {
-            opts = {};
             opts.versionPropertyType = helpers.stringVersionPropertyType;
-        });
-
-        teardown(() => {
-            opts = null;
         });
 
         test('Should bump patch version when nothing is specified', (done) => {
@@ -213,6 +209,127 @@ suite('Module Suite:', () => {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
                 assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionNumberObject);
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+    });
+
+    suite('Indent configuration options Suite:', () => {
+        test('Should use default indent when no indent specified', (done) => {
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use default indent when invalid indent specified', (done) => {
+            opts.indent = 'invalid';
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use default indent when NaN indent specified', (done) => {
+            opts.indent = NaN;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use default indent when negative indent specified', (done) => {
+            opts.indent = -7;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use default indent when zero indent specified', (done) => {
+            opts.indent = 0;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use default indent when indent over ten specified', (done) => {
+            opts.indent = 32;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use specified indent when indent of one specified', (done) => {
+            const indent = 1;
+            opts.indent = indent;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use specified indent when indent of ten specified', (done) => {
+            const indent = 10;
+            opts.indent = indent;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
+
+        test('Should use specified indent when indent between one and ten specified', (done) => {
+            const indent = 6;
+            opts.indent = indent;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
                 done();
             });
 

@@ -45,6 +45,7 @@ const createSampleTaskContents = ((major, minor, patch) => {
 
 const validSampleOneTaskContents = createSampleTaskContents(majorStr, minorStr, patchStr);
 const validSampleOneNumericVersionTaskContents = createSampleTaskContents(major, minor, patch);
+const validSampleOneNumericBumpedVersionTaskContents = createSampleTaskContents(major, minor, patch + 1);
 const invalidSampleOneTaskContents = createSampleTaskContents('abc', minorStr, patchStr);
 const filePath = './src/foo.js';
 
@@ -85,6 +86,7 @@ module.exports = {
     filePath: filePath,
     validSampleOneTaskFile: buildTaskFile(validSampleOneTaskContents),
     invalidSampleOneTaskFile: buildTaskFile(invalidSampleOneTaskContents),
+    bumpedTaskFile: buildTaskFile(validSampleOneNumericBumpedVersionTaskContents),
     createSampleTaskContents: createSampleTaskContents,
     createVersionObject: createVersionObject,
     initialVersionObject: createVersionObject(majorStr, minorStr, patchStr),
@@ -104,5 +106,6 @@ module.exports = {
     stringVersionPropertyType: stringVersionPropertyType,
     numberVersionPropertyType: numberVersionPropertyType,
     defaultVersionPropertyType: defaultVersionPropertyType,
-    defaultOptions: defaultOptions
+    defaultOptions: defaultOptions,
+    validSampleOneNumericBumpedVersionTaskContents: validSampleOneNumericBumpedVersionTaskContents
 };
