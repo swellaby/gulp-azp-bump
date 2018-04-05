@@ -157,7 +157,7 @@ suite('index Suite:', () => {
             index(opts);
         });
 
-        test('Should invoke the callback with an error when logging an error', (done) => {
+        test('Should invoke the callback with an error when logger throws an error', (done) => {
             logInfoStub.throws(() => new Error());
             callback = (err, data) => {
                 assert.isNotNull(err);

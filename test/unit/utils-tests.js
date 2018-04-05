@@ -113,7 +113,7 @@ suite('utils Suite:', () => {
             assert.deepEqual(opts.indent, indent);
         });
 
-        test('Should use specified json indent  when indent between 1 and 10 is specified', () => {
+        test('Should use specified json indent when indent between 1 and 10 is specified', () => {
             const indent = 4;
             opts.indent = indent;
             utils.validateJsonIndent(opts);
@@ -124,6 +124,13 @@ suite('utils Suite:', () => {
             opts.indent = '3';
             utils.validateJsonIndent(opts);
             assert.deepEqual(opts.indent, helpers.defaultJsonIndent);
+        });
+
+        test('Should use specified json indent when tab character is specified', () => {
+            const indent = '\t';
+            opts.indent = indent;
+            utils.validateJsonIndent(opts);
+            assert.deepEqual(opts.indent, indent);
         });
     });
 

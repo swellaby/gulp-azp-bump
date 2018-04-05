@@ -336,6 +336,20 @@ suite('Module Suite:', () => {
             bump.write(fakeFile);
             bump.end();
         });
+
+        test('Should use specified indent when tab indent specified', (done) => {
+            const indent = '\t';
+            opts.indent = indent;
+            const bump = vstsBump(opts);
+            bump.once(helpers.streamDataEventName, function(newFile) {
+                assert.isNotNull(newFile);
+                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
+                done();
+            });
+
+            bump.write(fakeFile);
+            bump.end();
+        });
     });
 
     suite('Failed bump Suite:', () => {

@@ -68,7 +68,7 @@ Set this to `true` if you want to supress the log output. For example:
     .pipe(gulp.dest('./'));
 ...
 
-```
+```  
 
 - `versionPropertyType`: string (default value: `'number'`)  
 Allowed values: `'number'` (default) and `'string'`. Some VSTS tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (VSTS supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to `'string'` in the configuration options: 
@@ -79,14 +79,24 @@ Allowed values: `'number'` (default) and `'string'`. Some VSTS tasks specify the
     .pipe(gulp.dest('./'));
 ...
 
-```
+```  
 
-- `indent`: number (default value: `2`)  
-Allowed values: any positive whole number between `1` and `10` inclusive. This controls the indent value to use in the updated task.json file(s)
+- `indent`: number (default value: `2`) OR string  
+Allowed values: any positive whole number between `1` and `10` inclusive, or the tab character `'\t'`. This controls the spacing indent value to use in the updated task.json file(s). If a number is specified each level in the json file will be indented by that amount of space characters, or if the tab `'\t'` character is specified then each level will be indented with a tab. 
 
+For example to indent by 4 spaces:  
 ```js
 ...
     .pipe(vstsBump({ indent: 4 }))   
+    .pipe(gulp.dest('./'));
+...
+
+```  
+
+Or if you prefer a tab:  
+```js
+...
+    .pipe(vstsBump({ indent: '\t' }))   
     .pipe(gulp.dest('./'));
 ...
 
