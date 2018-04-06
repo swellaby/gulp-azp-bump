@@ -1,5 +1,5 @@
 # gulp-vsts-bump
-Gulp plugin to bump the version of VSTS tasks  
+Gulp plugin to bump the version of [VSTS][vsts-url] tasks  
 
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
@@ -8,9 +8,9 @@ Gulp plugin to bump the version of VSTS tasks
 [![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url]  
 
 ## About
-Gulp plugin that supports bumping the versions of VSTS tasks. The VSTS task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files like package.json (note that the values of Major, Minor, Patch can be strings OR numbers).
+Gulp plugin that supports bumping the versions of [VSTS][vsts-url] tasks. The [VSTS][vsts-url] task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files like package.json (note that the values of Major, Minor, Patch can be strings OR numbers).
 
-VSTS task manifest example:
+[VSTS][vsts-url] task manifest example:
 ```json
 {
     "id": "923e6d5c-0b14-462b-922e-813cbd2ef4cc",
@@ -26,9 +26,9 @@ VSTS task manifest example:
 }
 ```
 
-The VSTS task version cannot be bumped using other gulp plugins without writing a lot of extra code, so we wrote this plugin to provide simple support specifically for VSTS tasks.  
+The [VSTS][vsts-url] task version cannot be bumped using other gulp plugins without writing a lot of extra code, so we wrote this plugin to provide simple support specifically for [VSTS][vsts-url] tasks.  
 
-This plugin should only be used for bumping VSTS task manifest files. For bumping any other standard version string in any other type file (like in a package.json file) you should *not* use this plugin, and you should use something like [gulp-bump][gulp-bump-pkg-url] instead.
+This plugin should only be used for bumping [VSTS][vsts-url] task manifest files. For bumping any other standard version string in any other type file (like in a package.json file) you should *not* use this plugin, and you should use something like [gulp-bump][gulp-bump-pkg-url] instead.
 
 ## Usage
 **Simple Usage (bumps patch version by default)**
@@ -74,7 +74,7 @@ Or the major version value:
 <br /> 
 
 ### **quiet**: boolean   
-- *Default Value*: ```'patch'```
+- *Default Value*: ```false```
 - *Allowed Values*: ```true```, ```false```
 - *Description*: Set this to ```true``` if you want to supress the log output
 
@@ -175,3 +175,4 @@ See the [Guidelines][contrib-dev-url] for more info about building and developin
 [create-question-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=QUESTION_TEMPLATE.md&labels=question,unreviewed&title=Q:%20
 [create-enhancement-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=ENHANCEMENT_TEMPLATE.md&labels=enhancement,unreviewed&title=E:%20
 [contrib-dev-url]: .github/CONTRIBUTING.md#developing
+[vsts-url]: https://www.visualstudio.com/team-services/
