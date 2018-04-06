@@ -110,7 +110,7 @@ npm run lint
 [mocha-tdd-url]: https://mochajs.org/#tdd
 [sinon-url]: sinonjs.org/
 [nyc-url]: https://istanbul.js.org/
-[unit-test]: test/unit/
-[comp-test]: test/component/
-[config]: config/
+[unit-test]: ../test/unit/
+[comp-test]: ../test/component/
+[config]: ../config/
 [top]: CONTRIBUTING.md#contributing

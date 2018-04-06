@@ -54,28 +54,68 @@ gulp.task('tasks:bump', function () {
 });
 ```
 
+
 ## Options
 
-- **type**: string (default value: `'patch'`)  
-Use to specify the release type you want to bump. Expected values are `'major'`, `'minor'`, or `'patch'` (default value). Technically any valid semver type (including prerelease, etc.) will be accepted, but you shouldn't use anything other than `major`, `minor`, or `patch` since that is all VSTS tasks can store.
+### **type**: string 
 
-- **quiet**: boolean (default value: `false`)  
-Set this to `true` if you want to supress the log output. For example:
+|                          |                          |            
+|:------------------------:|:------------------------:|    
+| *Default Value:*         | `'patch'`            |  
+| *Allowed Values:*        | `'major'`, `'minor'`, `'patch'` |
+| *Description:*           |Use to specify the release type you want to bump. Technically any valid semver type (including prerelease, etc.) will be accepted, but you shouldn't use anything other than `major`, `minor`, or `patch` since that is all VSTS tasks can store.    
+
+For example to bump the minor version value:  
+```js
+    .pipe(vstsBump({ type: 'minor' }))
+```  
+
+Or the major version value:  
+```js
+    .pipe(vstsBump({ type: 'major' }))
+```  
+
+<br /> 
+
+### **quiet**: boolean   
+
+|                          |                          |            
+|:------------------------:|:------------------------:|    
+| *Default Value:*         | ```'patch'```            |  
+| *Allowed Values:*        | ```true```, ```false``` |
+| *Description:*           | Set this to ```true``` if you want to supress the log output | 
+
+Example:
 
 ```js
     .pipe(vstsBump({ quiet: true }))
-
 ```  
+<br /> 
 
-- **versionPropertyType**: string (default value: `'number'`)  
-Allowed values: `'number'` (default) and `'string'`. Some VSTS tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (VSTS supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to `'string'` in the configuration options: 
+### **versionPropertyType**: string  
+
+|                          |                          |            
+|:------------------------:|:------------------------:|    
+| *Default Value:*         | ```'number'```            |  
+| *Allowed Values:*        | ```'number'```, ```'string'``` |
+| *Description:*           | Specifies whether the emitted version property values should be numbers or strings. Some VSTS tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (VSTS supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to ```'string'``` in the configuration options  | 
+
+Example:
 
 ```js
     .pipe(vstsBump({ versionPropertyType: 'string' }))
 ```  
 
-- **indent**: number (default value: `2`) OR string  
-Allowed values: any positive whole number between `1` and `10` inclusive, or the tab character `'\t'`. This controls the spacing indent value to use in the updated task.json file(s). If a number is specified, each level in the json file will be indented by that amount of space characters. Alternatively, if the tab `'\t'` character is specified, then each level will be indented with a tab. 
+<br />  
+
+### **indent**: number OR string  
+
+|                          |                          |            
+|:------------------------:|:------------------------:|    
+| *Default Value:*         | ```2```            |  
+| *Allowed Values:*        | Any positive whole number between ```1``` and ```10``` inclusive, or the tab character ```'\t'``` |
+| *Description:*           | Controls the spacing indent value to use in the updated task.json file(s). If a number is specified, each level in the json file will be indented by that number of space characters. Alternatively, if the tab ```'\t'``` character is specified, then each level will be indented with a tab.   | 
+
 
 For example to indent by 4 spaces:  
 ```js
@@ -87,8 +127,11 @@ Or if you prefer a tab:
     .pipe(vstsBump({ indent: '\t' }))
 ```
 
+
+
 ## License
 MIT - see license details [here][license-url] 
+
 
 ## Contributing
 Need to open an issue? Click the below links to create one:
@@ -97,7 +140,7 @@ Need to open an issue? Click the below links to create one:
 - [Request an enhancement][create-enhancement-url]
 - [Ask a question][create-question-url]
 
-See the [developing guidelines][contrib-dev-url] for more info.
+See the [Guidelines][contrib-dev-url] for more info about building and developing.
 
 [npmjs-version-badge]: https://img.shields.io/npm/v/gulp-vsts-bump.svg
 [npmjs-pkg-url]: https://www.npmjs.com/package/gulp-vsts-bump
