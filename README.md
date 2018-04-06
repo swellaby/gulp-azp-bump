@@ -56,7 +56,6 @@ gulp.task('tasks:bump', function () {
 ```
 
 ## Options
-
 ### **type**: string 
 - *Default Value*: `'patch'`
 - *Allowed Values*: `'major'`, `'minor'`, `'patch'`
@@ -71,7 +70,6 @@ Or the major version value:
 ```js
     .pipe(vstsBump({ type: 'major' }))
 ``` 
-<br /> 
 
 ### **quiet**: boolean   
 - *Default Value*: ```false```
@@ -82,7 +80,6 @@ Example:
 ```js
     .pipe(vstsBump({ quiet: true }))
 ```  
-<br /> 
 
 ### **versionPropertyType**: string  
 - *Default Value*: ```'number'```
@@ -128,8 +125,6 @@ Emitted task.json version object:
         "Patch": "2"
     },
 ```
-
-<br />  
 
 ### **indent**: number OR string  
 - *Default Value*: ```2```
