@@ -1,5 +1,6 @@
 # gulp-vsts-bump
-Gulp plugin to bump the version of VSTS tasks  (still in preview, may be broken!)  
+Gulp plugin to bump the version of VSTS tasks  
+
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
 [![AppVeyor Status][appveyor-badge]][appveyor-url]
@@ -54,16 +55,12 @@ gulp.task('tasks:bump', function () {
 });
 ```
 
-
 ## Options
 
 ### **type**: string 
-
-|                          |                          |            
-|:------------------------:|:------------------------:|    
-| *Default Value:*         | `'patch'`            |  
-| *Allowed Values:*        | `'major'`, `'minor'`, `'patch'` |
-| *Description:*           |Use to specify the release type you want to bump. Technically any valid semver type (including prerelease, etc.) will be accepted, but you shouldn't use anything other than `major`, `minor`, or `patch` since that is all VSTS tasks can store.    
+- *Default Value*: `'patch'`
+- *Allowed Values*: `'major'`, `'minor'`, `'patch'`
+- *Description*: Specifies the release type you want to bump. Technically any valid semver type (including prerelease, etc.) will be accepted, but you shouldn't use anything other than `major`, `minor`, or `patch` since that is all VSTS tasks can store. 
 
 For example to bump the minor version value:  
 ```js
@@ -73,49 +70,71 @@ For example to bump the minor version value:
 Or the major version value:  
 ```js
     .pipe(vstsBump({ type: 'major' }))
-```  
-
+``` 
 <br /> 
 
 ### **quiet**: boolean   
-
-|                          |                          |            
-|:------------------------:|:------------------------:|    
-| *Default Value:*         | ```'patch'```            |  
-| *Allowed Values:*        | ```true```, ```false``` |
-| *Description:*           | Set this to ```true``` if you want to supress the log output | 
+- *Default Value*: ```'patch'```
+- *Allowed Values*: ```true```, ```false```
+- *Description*: Set this to ```true``` if you want to supress the log output
 
 Example:
-
 ```js
     .pipe(vstsBump({ quiet: true }))
 ```  
 <br /> 
 
 ### **versionPropertyType**: string  
-
-|                          |                          |            
-|:------------------------:|:------------------------:|    
-| *Default Value:*         | ```'number'```            |  
-| *Allowed Values:*        | ```'number'```, ```'string'``` |
-| *Description:*           | Specifies whether the emitted version property values should be numbers or strings. Some VSTS tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (VSTS supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to ```'string'``` in the configuration options  | 
+- *Default Value*: ```'number'```
+- *Allowed Values*: ```'number'```, ```'string'```
+- *Description*: Specifies whether the emitted version property values should be numbers or strings. Some VSTS tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (VSTS supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to ```'string'``` in the configuration options
 
 Example:
-
 ```js
     .pipe(vstsBump({ versionPropertyType: 'string' }))
-```  
+``` 
+
+If the initial version object in your task.json file looks like this:
+```json
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 1
+    },
+```
+
+If you run the plugin with the default options (bumps patch), then the emitted bumped version object will have the Patch version bumped and the values will be numbers:
+```js
+    .pipe(vstsBump())
+``` 
+Emitted task.json version object:
+```json
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 2
+    },
+```
+
+If instead you specified ```'string'``` for the versionPropertyType, then the emitted bumped version object will have the Patch version bumped and the values will be strings: 
+```js
+    .pipe(vstsBump({ versionPropertyType: 'string' }))
+``` 
+Emitted task.json version object:
+```json
+    "version": {
+        "Major": "0",
+        "Minor": "1",
+        "Patch": "2"
+    },
+```
 
 <br />  
 
 ### **indent**: number OR string  
-
-|                          |                          |            
-|:------------------------:|:------------------------:|    
-| *Default Value:*         | ```2```            |  
-| *Allowed Values:*        | Any positive whole number between ```1``` and ```10``` inclusive, or the tab character ```'\t'``` |
-| *Description:*           | Controls the spacing indent value to use in the updated task.json file(s). If a number is specified, each level in the json file will be indented by that number of space characters. Alternatively, if the tab ```'\t'``` character is specified, then each level will be indented with a tab.   | 
-
+- *Default Value*: ```2```
+- *Allowed Values*: Any positive whole number between ```1``` and ```10``` inclusive, or the tab character ```'\t'```
+- *Description*: Controls the spacing indent value to use in the updated task.json file(s). If a number is specified, each level in the json file will be indented by that number of space characters. Alternatively, if the tab ```'\t'``` character is specified, then each level will be indented with a tab.
 
 For example to indent by 4 spaces:  
 ```js
@@ -127,11 +146,8 @@ Or if you prefer a tab:
     .pipe(vstsBump({ indent: '\t' }))
 ```
 
-
-
 ## License
 MIT - see license details [here][license-url] 
-
 
 ## Contributing
 Need to open an issue? Click the below links to create one:
