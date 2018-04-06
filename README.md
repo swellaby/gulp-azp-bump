@@ -7,7 +7,7 @@ Gulp plugin to bump the version of VSTS tasks  (still in preview, may be broken!
 [![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url]  
 
 ## About
-Gulp plugin that supports bumping the versions of VSTS tasks. The VSTS task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files (like package.json).
+Gulp plugin that supports bumping the versions of VSTS tasks. The VSTS task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files like package.json (note that the values of Major, Minor, Patch can be strings OR numbers).
 
 VSTS task manifest example:
 ```json
@@ -18,9 +18,9 @@ VSTS task manifest example:
     "description": "vsts",
     "author": "me",
     "version": {
-        "Major": "0",
-        "Minor": "1",
-        "Patch": "0"
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 1
     },
 }
 ```

@@ -1,7 +1,7 @@
 {
   "name": "gulp-vsts-bump",
   "description": "Gulp plugin to support bumping VSTS task manifests",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "build": "npm run lint && npm run coverage:enforce && npm run coverage:component:enforce",
-    "clean": "rimraf .testresults .coverage",
+    "clean": "rimraf .testresults .coverage .nyc_output",
     "coverage": "nyc --nycrc-path config/unit/.nycrc --check-coverage false npm run test:unit",
     "coverage:enforce": "nyc --nycrc-path config/unit/.nycrc npm run test:unit",
     "coverage:open": "npm run coverage && opn .coverage/unit/index.html",
