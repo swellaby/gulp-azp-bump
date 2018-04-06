@@ -113,4 +113,4 @@ npm run lint
 [unit-test]: test/unit/
 [comp-test]: test/component/
 [config]: config/
-[top]: CONTRIBUTING.md#Contributing
+[top]: CONTRIBUTING.md#contributing

@@ -1,7 +1,7 @@
 {
   "name": "gulp-vsts-bump",
   "description": "Gulp plugin to support bumping VSTS task manifests",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {

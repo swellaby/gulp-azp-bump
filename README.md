@@ -90,6 +90,15 @@ Or if you prefer a tab:
 ## License
 MIT - see license details [here][license-url] 
 
+## Contributing
+Need to open an issue? Click the below links to create one:
+
+- [Report a bug][create-bug-url]
+- [Request an enhancement][create-enhancement-url]
+- [Ask a question][create-question-url]
+
+See the [developing guidelines][contrib-dev-url] for more info.
+
 [npmjs-version-badge]: https://img.shields.io/npm/v/gulp-vsts-bump.svg
 [npmjs-pkg-url]: https://www.npmjs.com/package/gulp-vsts-bump
 [circle-ci-badge]: https://circleci.com/gh/swellaby/gulp-vsts-bump.svg?style=shield
@@ -103,3 +112,7 @@ MIT - see license details [here][license-url]
 [coveralls-url]: https://coveralls.io/github/swellaby/gulp-vsts-bump?branch=master
 [license-url]: LICENSE
 [vsts-task-manifest-url]: https://raw.githubusercontent.com/Microsoft/vsts-task-lib/master/tasks.schema.json
+[create-bug-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=BUG_TEMPLATE.md&labels=bug,unreviewed&title=Bug:%20
+[create-question-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=QUESTION_TEMPLATE.md&labels=question,unreviewed&title=Q:%20
+[create-enhancement-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=ENHANCEMENT_TEMPLATE.md&labels=enhancement,unreviewed&title=E:%20
+[contrib-dev-url]: .github/CONTRIBUTING.md#developing
