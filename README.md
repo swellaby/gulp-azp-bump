@@ -30,6 +30,12 @@ The [VSTS][vsts-url] task version cannot be bumped using other gulp plugins with
 
 This plugin should only be used for bumping [VSTS][vsts-url] task manifest files. For bumping any other standard version string in any other type file (like in a package.json file) you should *not* use this plugin, and you should use something like [gulp-bump][gulp-bump-pkg-url] instead.
 
+## Install
+Install the package is a dev dependency:
+```sh
+npm i gulp-vsts-bump --save-dev
+```
+
 ## Usage
 **Simple Usage (bumps patch version by default)**
 ```js
