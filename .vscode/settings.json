@@ -8,8 +8,8 @@
         "*.tgz": true
     },
     "eslint.options": {
-        "configFile": "./config/.eslintrc.js",
-        "ignorePath": "./config/.eslintignore"
+        "configFile": "./.eslintrc.js",
+        "ignorePath": "./.eslintignore"
     }
 }
 

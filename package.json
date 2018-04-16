@@ -37,7 +37,7 @@
     "coverage:component": "nyc --nycrc-path config/component/.nycrc --check-coverage false npm run test:component",
     "coverage:component:enforce": "nyc --nycrc-path config/component/.nycrc npm run test:component",
     "coverage:component:open": "npm run coverage:component && opn .coverage/component/index.html",
-    "lint": "eslint --ignore-path config/.eslintignore -c config/.eslintrc.js ./**/*.js",
+    "lint": "eslint **/*.js",
     "test": "npm run test:unit",
     "test:all": "npm run test:unit && npm run test:component",
     "test:component": "mocha --opts config/component/mocha.opts",
@@ -46,11 +46,12 @@
     "dev:setup": "npm install && npm run build"
   },
   "devDependencies": {
-    "@swellaby/nyc-config-complete-coverage": "0.0.5",
+    "@swellaby/eslint-config-node": "^0.0.4",
+    "@swellaby/nyc-config-complete-coverage": "^1.0.2",
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
     "husky": "^0.15.0-rc.13",
-    "mocha": "^5.0.5",
+    "mocha": "^5.1.0",
     "mocha-multi-reporters": "^1.1.7",
     "mocha-sonarqube-reporter": "^1.0.1",
     "nyc": "^11.6.0",

@@ -222,7 +222,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -235,7 +236,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -248,7 +250,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -261,7 +264,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -274,7 +278,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -287,7 +292,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -301,7 +307,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -315,7 +322,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -329,7 +337,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 
@@ -343,7 +352,8 @@ suite('Module Suite:', () => {
             const bump = vstsBump(opts);
             bump.once(helpers.streamDataEventName, function(newFile) {
                 assert.isNotNull(newFile);
-                assert.deepEqual(newFile.contents.toString(), JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent));
+                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
 

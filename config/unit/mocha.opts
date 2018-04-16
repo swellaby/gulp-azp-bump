@@ -3,4 +3,4 @@
 -R mocha-multi-reporters
 --reporter-options configFile=config/unit/mocha-reporter-config.json
 --recursive
-./test/unit/**/*-tests.js
+./test/unit/**/*.js
