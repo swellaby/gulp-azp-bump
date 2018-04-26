@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-    extends: '@swellaby/eslint-config-node'
+    extends: '@swellaby/eslint-config'
 };
