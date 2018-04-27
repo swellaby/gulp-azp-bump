@@ -1,5 +1,5 @@
 {
-    "extends": "@swellaby/nyc-config-complete-coverage",
+    "extends": "@swellaby/nyc-config",
     "include": [
       "lib/**/*.js"
     ],
