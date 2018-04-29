@@ -170,10 +170,10 @@ See the [Guidelines][contrib-dev-url] for more info about building and developin
 [gulp-bump-pkg-url]: https://www.npmjs.com/package/gulp-bump
 [coveralls-badge]: https://coveralls.io/repos/github/swellaby/gulp-vsts-bump/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/swellaby/gulp-vsts-bump?branch=master
-[license-url]: LICENSE
+[license-url]: ./LICENSE
 [vsts-task-manifest-url]: https://raw.githubusercontent.com/Microsoft/vsts-task-lib/master/tasks.schema.json
 [create-bug-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=BUG_TEMPLATE.md&labels=bug,unreviewed&title=Bug:%20
 [create-question-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=QUESTION_TEMPLATE.md&labels=question,unreviewed&title=Q:%20
 [create-enhancement-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=ENHANCEMENT_TEMPLATE.md&labels=enhancement,unreviewed&title=E:%20
-[contrib-dev-url]: .github/CONTRIBUTING.md#developing
+[contrib-dev-url]: ./.github/CONTRIBUTING.md#developing
 [vsts-url]: https://www.visualstudio.com/team-services/
