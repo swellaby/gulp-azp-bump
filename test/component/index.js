@@ -15,10 +15,9 @@ suite('Module Suite:', () => {
     let fakeFile = new File();
     let logInfoStub;
     let opts;
-    const sandbox = Sinon.sandbox.create();
 
     setup(() => {
-        logInfoStub = sandbox.stub(log, 'info');
+        logInfoStub = Sinon.stub(log, 'info');
         fakeFile = new File({
             contents: new Buffer(JSON.stringify(helpers.validSampleOneTaskContents)),
             path: helpers.filePath
@@ -27,7 +26,7 @@ suite('Module Suite:', () => {
     });
 
     teardown(() => {
-        sandbox.restore();
+        Sinon.restore();
         fakeFile = null;
         opts = null;
     });

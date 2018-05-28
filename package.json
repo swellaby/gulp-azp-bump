@@ -1,7 +1,7 @@
 {
   "name": "gulp-vsts-bump",
   "description": "Gulp plugin to support bumping VSTS task manifests",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
@@ -51,18 +51,18 @@
     "dev:setup": "npm install && npm run build"
   },
   "devDependencies": {
-    "@swellaby/eslint-config": "^1.1.3",
-    "@swellaby/nyc-config": "^1.0.9",
+    "@swellaby/eslint-config": "^1.1.5",
+    "@swellaby/nyc-config": "^1.0.12",
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
     "husky": "^0.15.0-rc.13",
-    "mocha": "^5.1.1",
+    "mocha": "^5.2.0",
     "mocha-multi-reporters": "^1.1.7",
     "mocha-sonarqube-reporter": "^1.0.1",
-    "nyc": "^11.7.1",
+    "nyc": "^11.8.0",
     "opn-cli": "^3.1.0",
     "rimraf": "^2.6.2",
-    "sinon": "^4.5.0",
+    "sinon": "^5.0.10",
     "vinyl": "^2.1.0"
   },
   "dependencies": {

@@ -16,12 +16,11 @@ suite('Files Suite:', () => {
     const initialStringFilePath = path.resolve(__dirname, 'files/string/task.json');
     const initialStringFile = fs.readFileSync(initialStringFilePath);
     let fakeFile = new File();
-    const sandbox = Sinon.sandbox.create();
     const patchStringFilePath = path.resolve(__dirname, 'files/string/patch.json');
     const patchStringFile = JSON.parse(fs.readFileSync(patchStringFilePath, 'utf8'));
 
     setup(() => {
-        sandbox.stub(log, 'info');
+        Sinon.stub(log, 'info');
         fakeFile = new File({
             contents: initialStringFile,
             path: initialStringFilePath,
@@ -31,7 +30,7 @@ suite('Files Suite:', () => {
     });
 
     teardown(() => {
-        sandbox.restore();
+        Sinon.restore();
         fakeFile = null;
     });
 

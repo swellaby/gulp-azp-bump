@@ -4,6 +4,7 @@ Gulp plugin to bump the version of [VSTS][vsts-url] tasks
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
 [![AppVeyor Status][appveyor-badge]][appveyor-url]
+[![Test Results Badge][tests-badge]][appveyor-url]
 [![Coverage Status][coveralls-badge]][coveralls-url]
 [![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url]  
 
@@ -164,6 +165,7 @@ See the [Guidelines][contrib-dev-url] for more info about building and developin
 [circle-ci-badge]: https://circleci.com/gh/swellaby/gulp-vsts-bump.svg?style=shield
 [circle-ci-url]: https://circleci.com/gh/swellaby/gulp-vsts-bump
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/8574rkisuw157e8h?svg=true
+[tests-badge]: https://img.shields.io/appveyor/tests/swellaby/gulp-vsts-bump.svg
 [appveyor-url]: https://ci.appveyor.com/project/swellaby/gulp-vsts-bump
 [sonar-quality-gate-badge]: https://sonarcloud.io/api/project_badges/measure?project=swellaby%3Agulp-vsts-bump&metric=alert_status
 [sonar-url]: https://sonarcloud.io/dashboard?id=swellaby%3Agulp-vsts-bump

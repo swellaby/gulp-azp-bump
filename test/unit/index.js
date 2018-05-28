@@ -12,7 +12,6 @@ const utils = require('../../lib/utils');
 const assert = Chai.assert;
 
 suite('index Suite:', () => {
-    const sandbox = Sinon.sandbox.create();
     let opts;
     let fileStub;
     let callback;
@@ -28,26 +27,26 @@ suite('index Suite:', () => {
     let utilsBumpVersionStub;
 
     const stubUtilsFunctions = () => {
-        utilsValidateOptionsStub = sandbox.stub(utils, 'validateOptions').callsFake(() => helpers.defaultOptions);
-        utilsGetTaskVersionStub = sandbox.stub(utils, 'getTaskVersion').callsFake(() => helpers.initialVersion);
-        utilsBumpVersionStub = sandbox.stub(utils, 'bumpVersion').callsFake(() => helpers.bumpedVersion);
+        utilsValidateOptionsStub = Sinon.stub(utils, 'validateOptions').callsFake(() => helpers.defaultOptions);
+        utilsGetTaskVersionStub = Sinon.stub(utils, 'getTaskVersion').callsFake(() => helpers.initialVersion);
+        utilsBumpVersionStub = Sinon.stub(utils, 'bumpVersion').callsFake(() => helpers.bumpedVersion);
     };
 
     setup(() => {
         opts = { quiet: true };
         stubUtilsFunctions();
         fileStub = helpers.validSampleOneTaskFile;
-        semverValidStub = sandbox.stub(semver, 'valid').callsFake(() => { return true; });
-        throughObjStub = sandbox.stub(through, 'obj');
-        fileIsNullStub = sandbox.stub(fileStub, 'isNull').callsFake(() => false);
-        fileIsStreamStub = sandbox.stub(fileStub, 'isStream').callsFake(() => false);
-        jsonParseStub = sandbox.stub(JSON, 'parse').callsFake(() => { return helpers.validSampleOneTaskContents; });
-        jsonStringifySpy = sandbox.spy(JSON, 'stringify');
-        logInfoStub = sandbox.stub(log, 'info');
+        semverValidStub = Sinon.stub(semver, 'valid').callsFake(() => { return true; });
+        throughObjStub = Sinon.stub(through, 'obj');
+        fileIsNullStub = Sinon.stub(fileStub, 'isNull').callsFake(() => false);
+        fileIsStreamStub = Sinon.stub(fileStub, 'isStream').callsFake(() => false);
+        jsonParseStub = Sinon.stub(JSON, 'parse').callsFake(() => { return helpers.validSampleOneTaskContents; });
+        jsonStringifySpy = Sinon.spy(JSON, 'stringify');
+        logInfoStub = Sinon.stub(log, 'info');
     });
 
     teardown(() => {
-        sandbox.restore();
+        Sinon.restore();
         opts = null;
         fileStub = null;
     });
