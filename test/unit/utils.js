@@ -55,7 +55,6 @@ suite('utils Suite:', () => {
         });
     });
 
-    /* eslint-disable-next-line max-statements */
     suite('validateJsonIndent Suite:', () => {
         test('Should set json indent to default if no type is specified', () => {
             utils.validateJsonIndent(opts);
@@ -242,7 +241,6 @@ suite('utils Suite:', () => {
         });
     });
 
-    /* eslint-disable-next-line max-statements */
     suite('bumpVersion Suite:', () => {
         let semverMajorStub;
         let semverMinorStub;

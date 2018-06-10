@@ -1,5 +1,8 @@
 {
     "recommendations": [
         "dbaeumer.vscode-eslint",
+        "pflannery.vscode-versionlens",
+        "christian-kohler.npm-intellisense",
+        "eamodio.gitlens"
     ],    
 }
