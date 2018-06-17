@@ -2,6 +2,8 @@
 Gulp plugin to bump the version of [VSTS][vsts-url] tasks  
 
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
+[![npmjs downloads Badge][npmjs-downloads-badge]][npmjs-pkg-url] [![License Badge][license-badge]][license-url]  
+
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
 [![AppVeyor Status][appveyor-badge]][appveyor-url]
 [![Test Results Badge][tests-badge]][appveyor-url]
@@ -161,6 +163,7 @@ Need to open an issue? Click the below links to create one:
 See the [Guidelines][contrib-dev-url] for more info about building and developing.
 
 [npmjs-version-badge]: https://img.shields.io/npm/v/gulp-vsts-bump.svg
+[npmjs-downloads-badge]: https://img.shields.io/npm/dt/gulp-vsts-bump.svg
 [npmjs-pkg-url]: https://www.npmjs.com/package/gulp-vsts-bump
 [circle-ci-badge]: https://circleci.com/gh/swellaby/gulp-vsts-bump.svg?style=shield
 [circle-ci-url]: https://circleci.com/gh/swellaby/gulp-vsts-bump
@@ -172,6 +175,7 @@ See the [Guidelines][contrib-dev-url] for more info about building and developin
 [gulp-bump-pkg-url]: https://www.npmjs.com/package/gulp-bump
 [coveralls-badge]: https://coveralls.io/repos/github/swellaby/gulp-vsts-bump/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/swellaby/gulp-vsts-bump?branch=master
+[license-badge]: https://img.shields.io/github/license/swellaby/gulp-vsts-bump.svg
 [license-url]: ./LICENSE
 [vsts-task-manifest-url]: https://raw.githubusercontent.com/Microsoft/vsts-task-lib/master/tasks.schema.json
 [create-bug-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=BUG_TEMPLATE.md&labels=bug,unreviewed&title=Bug:%20
