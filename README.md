@@ -1,5 +1,5 @@
 # gulp-vsts-bump
-Gulp plugin to bump the version of [VSTS][vsts-url] tasks  
+Gulp plugin to bump the version of [VSTS][vsts-url] tasks. Note this is also available as a [standalone CLI/Lib][vsts-bump-url].
 
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
 [![npmjs downloads Badge][npmjs-downloads-badge]][npmjs-pkg-url] [![License Badge][license-badge]][license-url]  
@@ -8,7 +8,11 @@ Gulp plugin to bump the version of [VSTS][vsts-url] tasks
 [![AppVeyor Status][appveyor-badge]][appveyor-url]
 [![Test Results Badge][tests-badge]][appveyor-url]
 [![Coverage Status][coveralls-badge]][coveralls-url]
-[![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url]  
+[![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url] 
+
+**Feature Completion Notice**
+
+*Please note that we consider this package to be feature complete. We will continue to maintain and support this package by fixing any bugs discovered, updating dependency versions, etc. We will also consider PRs/Enhancement requests, but we do not have additional development activities planned at this time.*  
 
 ## About
 Gulp plugin that supports bumping the versions of [VSTS][vsts-url] tasks. The [VSTS][vsts-url] task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files like package.json (note that the values of Major, Minor, Patch can be strings OR numbers).
@@ -165,10 +169,10 @@ See the [Guidelines][contrib-dev-url] for more info about building and developin
 [npmjs-version-badge]: https://img.shields.io/npm/v/gulp-vsts-bump.svg
 [npmjs-downloads-badge]: https://img.shields.io/npm/dt/gulp-vsts-bump.svg
 [npmjs-pkg-url]: https://www.npmjs.com/package/gulp-vsts-bump
-[circle-ci-badge]: https://circleci.com/gh/swellaby/gulp-vsts-bump.svg?style=shield
+[circle-ci-badge]: https://img.shields.io/circleci/project/github/swellaby/gulp-vsts-bump.svg?label=linux%20build
 [circle-ci-url]: https://circleci.com/gh/swellaby/gulp-vsts-bump
-[appveyor-badge]: https://ci.appveyor.com/api/projects/status/8574rkisuw157e8h?svg=true
-[tests-badge]: https://img.shields.io/appveyor/tests/swellaby/gulp-vsts-bump.svg
+[appveyor-badge]: https://img.shields.io/appveyor/ci/swellaby/gulp-vsts-bump.svg?label=windows%20build
+[tests-badge]: https://img.shields.io/appveyor/tests/swellaby/gulp-vsts-bump.svg?label=unit%20tests
 [appveyor-url]: https://ci.appveyor.com/project/swellaby/gulp-vsts-bump
 [sonar-quality-gate-badge]: https://sonarcloud.io/api/project_badges/measure?project=swellaby%3Agulp-vsts-bump&metric=alert_status
 [sonar-url]: https://sonarcloud.io/dashboard?id=swellaby%3Agulp-vsts-bump
@@ -183,3 +187,4 @@ See the [Guidelines][contrib-dev-url] for more info about building and developin
 [create-enhancement-url]: https://github.com/swellaby/gulp-vsts-bump/issues/new?template=ENHANCEMENT_TEMPLATE.md&labels=enhancement,unreviewed&title=E:%20
 [contrib-dev-url]: ./.github/CONTRIBUTING.md#developing
 [vsts-url]: https://www.visualstudio.com/team-services/
+[vsts-bump-url]: https://www.npmjs.com/package/vsts-bump
