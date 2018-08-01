@@ -7,7 +7,7 @@ Gulp plugin to bump the version of [VSTS][vsts-url] tasks. Note this is also ava
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
 [![AppVeyor Status][appveyor-badge]][appveyor-url]
 [![Test Results Badge][tests-badge]][appveyor-url]
-[![Coverage Status][coveralls-badge]][coveralls-url]
+[![Coverage Status][codecov-badge]][codecov-url]
 [![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url] 
 
 **Feature Completion Notice**
@@ -177,6 +177,8 @@ See the [Guidelines][contrib-dev-url] for more info about building and developin
 [sonar-quality-gate-badge]: https://sonarcloud.io/api/project_badges/measure?project=swellaby%3Agulp-vsts-bump&metric=alert_status
 [sonar-url]: https://sonarcloud.io/dashboard?id=swellaby%3Agulp-vsts-bump
 [gulp-bump-pkg-url]: https://www.npmjs.com/package/gulp-bump
+[codecov-badge]: https://img.shields.io/codecov/c/github/swellaby/gulp-vsts-bump.svg
+[codecov-url]: https://codecov.io/gh/swellaby/gulp-vsts-bump
 [coveralls-badge]: https://coveralls.io/repos/github/swellaby/gulp-vsts-bump/badge.svg?branch=master
 [coveralls-url]: https://coveralls.io/github/swellaby/gulp-vsts-bump?branch=master
 [license-badge]: https://img.shields.io/github/license/swellaby/gulp-vsts-bump.svg
