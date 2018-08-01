@@ -1,7 +1,7 @@
 node_modules/
-.circleci/
 .coverage
-.github/
-.testresults/
-.vscode/
 .nyc_output/
+.testresults/
+.circleci/
+.github/
+.vscode/
