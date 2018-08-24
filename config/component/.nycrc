@@ -1,9 +1,4 @@
 {
-    "extends": "@swellaby/nyc-config",   
-    "include": [
-      "lib/**/*.js"
-    ],
-    "exclude": [
-    ],
+    "extends": "@swellaby/nyc-config",
     "report-dir": ".coverage/component"
 }
