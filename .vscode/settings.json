@@ -1,17 +1,28 @@
 {
-    "files.exclude": {
-        "npm-debug.log": true,
-        ".testresults": true,
-        ".coverage": true,
-        "node_modules": true,        
-        ".nyc_output": true,
-        "*.tgz": true
-    },
-    "eslint.options": {
-        "configFile": "./.eslintrc.js",
-        "ignorePath": "./.eslintignore"
-    }
+  "files.exclude": {
+    "npm-debug.log": true,
+    ".testresults": true,
+    ".coverage": true,
+    "node_modules": true,
+    ".nyc_output": true,
+    "*.tgz": true
+  },
+  "cSpell.enabled": true,
+  "cSpell.enabledLanguageIds": [
+    "javascript",
+    "json",
+    "markdown",
+    "plaintext",
+    "properties",
+    "text"
+  ],
+  "cSpell.dictionaries": [
+    "companies",
+    "en_us",
+    "filetypes",
+    "misc",
+    "node",
+    "npm",
+    "softwareTerms"
+  ]
 }
-
-// "coverage-gutters.showLineCoverage": true,
-// "coverage-gutters.showRulerCoverage": true,
