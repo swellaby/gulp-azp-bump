@@ -36,8 +36,8 @@ const createVersionObject = ((major, minor, patch) => {
 
 const createSampleTaskContents = ((major, minor, patch) => {
     return {
-        decription: 'test',
-        id: 'asdf876asdfkasd',
+        description: 'test',
+        id: 'aSdf876aSdfKaSd',
         name: 'test-task',
         version: createVersionObject(major, minor, patch)
     };

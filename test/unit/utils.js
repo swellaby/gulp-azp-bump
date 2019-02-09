@@ -151,7 +151,7 @@ suite('utils Suite:', () => {
         });
 
         test('Should set version property type to default if mixed case string type is specified', () => {
-            opts.versionPropertyType = 'StrinG';
+            opts.versionPropertyType = 'STrInG';
             utils.validateVersionPropertyType(opts);
             assert.deepEqual(opts.versionPropertyType, helpers.defaultVersionPropertyType);
         });
