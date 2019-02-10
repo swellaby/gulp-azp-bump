@@ -112,8 +112,6 @@ suite('index Suite:', () => {
                 assert.isUndefined(data);
                 assert.deepEqual(err.message, 'Error parsing JSON file');
                 assert.deepEqual(err.plugin, helpers.pluginName);
-                assert.isTrue(err.showStack);
-                assert.deepEqual(err.fileName, helpers.filePath);
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);
