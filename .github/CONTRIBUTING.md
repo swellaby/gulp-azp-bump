@@ -88,7 +88,7 @@ npm run coverage:component:open
 ```
 
 ### Linting
-This repo uses [eslint][eslint-url] for linting the source code. eslint is automatically run when you run the npm `build` script and when you make a commit. The eslint configuration file can be found in the [config][config] directory.
+This repo uses [eslint][eslint-url] for linting the source code. eslint is automatically run when you run the npm `build` script and when you make a commit. The [eslint configuration file][eslint-config-file-url] can be found in the  root of the directory.
 
 You can run [eslint][eslint-url] at any time by executing the npm `lint` script:
 
@@ -112,5 +112,5 @@ npm run lint
 [nyc-url]: https://istanbul.js.org/
 [unit-test]: ../test/unit/
 [comp-test]: ../test/component/
-[config]: ../config/
+[eslint-config-file-url]: ../.eslintrc.js
 [top]: CONTRIBUTING.md#contributing
