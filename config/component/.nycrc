@@ -1,4 +1,0 @@
-{
-    "extends": "@swellaby/nyc-config",
-    "report-dir": ".coverage/component"
-}
