@@ -1,11 +1,11 @@
 {
-  "name": "gulp-vsts-bump",
+  "name": "gulp-azp-bump",
   "description": "Gulp plugin to support bumping Azure Pipeline Task Manifests",
-  "version": "1.1.17",
+  "version": "2.0.0",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
-    "url": "https://github.com/swellaby/gulp-vsts-bump",
+    "url": "https://github.com/swellaby/gulp-azp-bump",
     "type": "git"
   },
   "author": {
