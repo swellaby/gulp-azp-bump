@@ -5,7 +5,7 @@ pr:
 - master
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'win1803'
 
 resources:
   repositories:
