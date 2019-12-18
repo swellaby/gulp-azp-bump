@@ -15,11 +15,6 @@ resources:
     endpoint: swellaby
 
 steps:
-# - task: UseNode@1
-#   displayName: 'Use Node 10.x'
-#   inputs:
-#     version: 10.x
-
 - script: |
     npm install -g npm@6.11.1
     npm run prepare - successful
