@@ -1,4 +1,7 @@
 {
-    "extends": "@swellaby/nyc-config",
-    "report-dir": ".coverage/unit"
+  "extends": "@swellaby/nyc-config",
+  "report-dir": ".coverage/unit",
+  "include": [
+    "lib"
+  ]
 }
