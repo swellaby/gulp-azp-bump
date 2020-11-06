@@ -45,6 +45,8 @@
     "coverage:component:enforce": "nyc --report-dir .coverage/component npm run test:component",
     "coverage:component:open": "npm run coverage:component && open-cli .coverage/component/index.html",
     "lint": "eslint **/*.js",
+    "format": "prettier --check \"**/*.@(js|md|json|yml)\"",
+    "format:fix": "prettier --write \"**/*.@(js|md|json|yml)\"",
     "test": "npm run test:unit",
     "test:all": "npm run test:unit && npm run test:component",
     "pretest:component": "npm run clean:component",
@@ -68,6 +70,7 @@
     "mocha-sonarqube-reporter": "^1.0.2",
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
+    "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "sinon": "^9.2.0",
     "vinyl": "^2.2.1"
