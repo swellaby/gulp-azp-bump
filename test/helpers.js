@@ -26,37 +26,53 @@ const minorStr = minor.toString();
 const patchStr = patch.toString();
 const zeroStr = '0';
 
-const createVersionObject = ((major, minor, patch) => {
+const createVersionObject = (major, minor, patch) => {
     return {
         Major: major,
         Minor: minor,
         Patch: patch
     };
-});
+};
 
-const createSampleTaskContents = ((major, minor, patch) => {
+const createSampleTaskContents = (major, minor, patch) => {
     return {
         description: 'test',
         id: 'aSdf876aSdfKaSd',
         name: 'test-task',
         version: createVersionObject(major, minor, patch)
     };
-});
+};
 
-const validSampleOneTaskContents = createSampleTaskContents(majorStr, minorStr, patchStr);
-const validSampleOneNumericVersionTaskContents = createSampleTaskContents(major, minor, patch);
-const validSampleOneNumericBumpedVersionTaskContents = createSampleTaskContents(major, minor, patch + 1);
-const invalidSampleOneTaskContents = createSampleTaskContents('abc', minorStr, patchStr);
+const validSampleOneTaskContents = createSampleTaskContents(
+    majorStr,
+    minorStr,
+    patchStr
+);
+const validSampleOneNumericVersionTaskContents = createSampleTaskContents(
+    major,
+    minor,
+    patch
+);
+const validSampleOneNumericBumpedVersionTaskContents = createSampleTaskContents(
+    major,
+    minor,
+    patch + 1
+);
+const invalidSampleOneTaskContents = createSampleTaskContents(
+    'abc',
+    minorStr,
+    patchStr
+);
 const filePath = './src/foo.js';
 
-const buildTaskFile = ((fileContents) => {
+const buildTaskFile = (fileContents) => {
     return {
         contents: JSON.stringify(fileContents),
         isNull: () => false,
         isStream: () => false,
         path: filePath
     };
-});
+};
 
 const initialVersion = major + '.' + minor + '.' + patch;
 const bumpedVersion = major + '.' + minor + '.' + (patch + 1);
@@ -86,16 +102,34 @@ module.exports = {
     filePath: filePath,
     validSampleOneTaskFile: buildTaskFile(validSampleOneTaskContents),
     invalidSampleOneTaskFile: buildTaskFile(invalidSampleOneTaskContents),
-    bumpedTaskFile: buildTaskFile(validSampleOneNumericBumpedVersionTaskContents),
+    bumpedTaskFile: buildTaskFile(
+        validSampleOneNumericBumpedVersionTaskContents
+    ),
     createSampleTaskContents: createSampleTaskContents,
     createVersionObject: createVersionObject,
     initialVersionObject: createVersionObject(majorStr, minorStr, patchStr),
-    bumpedPatchVersionStringObject: createVersionObject(majorStr, minorStr, (patch + 1).toString()),
-    bumpedMinorVersionStringObject: createVersionObject(majorStr, (minor + 1).toString(), zeroStr),
-    bumpedMajorVersionStringObject: createVersionObject((major + 1).toString(), zeroStr, zeroStr),
-    bumpedPatchVersionNumberObject: createVersionObject(major, minor, (patch + 1)),
-    bumpedMinorVersionNumberObject: createVersionObject(major, (minor + 1), 0),
-    bumpedMajorVersionNumberObject: createVersionObject((major + 1), 0, 0),
+    bumpedPatchVersionStringObject: createVersionObject(
+        majorStr,
+        minorStr,
+        (patch + 1).toString()
+    ),
+    bumpedMinorVersionStringObject: createVersionObject(
+        majorStr,
+        (minor + 1).toString(),
+        zeroStr
+    ),
+    bumpedMajorVersionStringObject: createVersionObject(
+        (major + 1).toString(),
+        zeroStr,
+        zeroStr
+    ),
+    bumpedPatchVersionNumberObject: createVersionObject(
+        major,
+        minor,
+        patch + 1
+    ),
+    bumpedMinorVersionNumberObject: createVersionObject(major, minor + 1, 0),
+    bumpedMajorVersionNumberObject: createVersionObject(major + 1, 0, 0),
     validSampleOneTaskContents: validSampleOneTaskContents,
     validSampleOneNumericVersionTaskContents: validSampleOneNumericVersionTaskContents,
     invalidSampleOneTaskContents: invalidSampleOneTaskContents,

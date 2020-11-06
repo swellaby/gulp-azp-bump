@@ -16,7 +16,9 @@ suite('utils Suite:', () => {
     setup(() => {
         opts = {};
         semver.inc('');
-        semverIncStub = Sinon.stub(semver, 'inc').callsFake(() => helpers.bumpedVersion);
+        semverIncStub = Sinon.stub(semver, 'inc').callsFake(
+            () => helpers.bumpedVersion
+        );
     });
 
     teardown(() => {
@@ -136,31 +138,46 @@ suite('utils Suite:', () => {
     suite('validateVersionPropertyType Suite:', () => {
         test('Should set version property type to default if no type is specified', () => {
             utils.validateVersionPropertyType(opts);
-            assert.deepEqual(opts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                opts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should set version property type to default if invalid type is specified', () => {
             opts.versionPropertyType = 'bad';
             utils.validateVersionPropertyType(opts);
-            assert.deepEqual(opts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                opts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should set version property type to default if upper case string type is specified', () => {
             opts.versionPropertyType = 'STRING';
             utils.validateVersionPropertyType(opts);
-            assert.deepEqual(opts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                opts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should set version property type to default if mixed case string type is specified', () => {
             opts.versionPropertyType = 'STrInG';
             utils.validateVersionPropertyType(opts);
-            assert.deepEqual(opts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                opts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should using string version property type when string type is specified', () => {
             opts.versionPropertyType = 'string';
             utils.validateVersionPropertyType(opts);
-            assert.deepEqual(opts.versionPropertyType, helpers.stringVersionPropertyType);
+            assert.deepEqual(
+                opts.versionPropertyType,
+                helpers.stringVersionPropertyType
+            );
         });
     });
 
@@ -175,35 +192,50 @@ suite('utils Suite:', () => {
             validatedOpts = utils.validateOptions();
             assert.deepEqual(validatedOpts.type, helpers.defaultReleaseType);
             assert.deepEqual(validatedOpts.indent, helpers.defaultJsonIndent);
-            assert.deepEqual(validatedOpts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should initialize an opts object when null is specified', () => {
             validatedOpts = utils.validateOptions(null);
             assert.deepEqual(validatedOpts.type, helpers.defaultReleaseType);
             assert.deepEqual(validatedOpts.indent, helpers.defaultJsonIndent);
-            assert.deepEqual(validatedOpts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should initialize an opts object when undefined is specified', () => {
             validatedOpts = utils.validateOptions(undefined);
             assert.deepEqual(validatedOpts.type, helpers.defaultReleaseType);
             assert.deepEqual(validatedOpts.indent, helpers.defaultJsonIndent);
-            assert.deepEqual(validatedOpts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should initialize an opts object when an empty object is specified', () => {
             validatedOpts = utils.validateOptions({});
             assert.deepEqual(validatedOpts.type, helpers.defaultReleaseType);
             assert.deepEqual(validatedOpts.indent, helpers.defaultJsonIndent);
-            assert.deepEqual(validatedOpts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should return opts object with default values', () => {
             validatedOpts = utils.validateOptions(opts);
             assert.deepEqual(validatedOpts.type, helpers.defaultReleaseType);
             assert.deepEqual(validatedOpts.indent, helpers.defaultJsonIndent);
-            assert.deepEqual(validatedOpts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should return opts object with default values and specified release type', () => {
@@ -212,7 +244,10 @@ suite('utils Suite:', () => {
             validatedOpts = utils.validateOptions(opts);
             assert.deepEqual(validatedOpts.type, releaseType);
             assert.deepEqual(validatedOpts.indent, helpers.defaultJsonIndent);
-            assert.deepEqual(validatedOpts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should return opts object with default values and specified indent', () => {
@@ -221,7 +256,10 @@ suite('utils Suite:', () => {
             validatedOpts = utils.validateOptions(opts);
             assert.deepEqual(validatedOpts.type, helpers.defaultReleaseType);
             assert.deepEqual(validatedOpts.indent, indent);
-            assert.deepEqual(validatedOpts.versionPropertyType, helpers.defaultVersionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                helpers.defaultVersionPropertyType
+            );
         });
 
         test('Should return opts object with default values and specified version property type', () => {
@@ -230,13 +268,20 @@ suite('utils Suite:', () => {
             validatedOpts = utils.validateOptions(opts);
             assert.deepEqual(validatedOpts.type, helpers.defaultReleaseType);
             assert.deepEqual(validatedOpts.indent, helpers.defaultJsonIndent);
-            assert.deepEqual(validatedOpts.versionPropertyType, versionPropertyType);
+            assert.deepEqual(
+                validatedOpts.versionPropertyType,
+                versionPropertyType
+            );
         });
     });
 
     suite('getTaskVersion Suite:', () => {
         test('Should return correct task version string', () => {
-            const taskJson = helpers.createSampleTaskContents(helpers.majorVersionStr, helpers.minorVersionStr, helpers.patchVersionStr);
+            const taskJson = helpers.createSampleTaskContents(
+                helpers.majorVersionStr,
+                helpers.minorVersionStr,
+                helpers.patchVersionStr
+            );
             const version = utils.getTaskVersion(taskJson);
             assert.deepEqual(version, helpers.initialVersion);
         });
@@ -253,13 +298,23 @@ suite('utils Suite:', () => {
         const bumpedPatch = helpers.patchVersion + 1;
 
         setup(() => {
-            taskJson = helpers.createSampleTaskContents(helpers.majorVersionStr, helpers.minorVersionStr, helpers.patchVersionStr);
+            taskJson = helpers.createSampleTaskContents(
+                helpers.majorVersionStr,
+                helpers.minorVersionStr,
+                helpers.patchVersionStr
+            );
             semver.major('v1.0.0');
             semver.minor('v1.0.0');
             semver.patch('v1.0.0');
-            semverMajorStub = Sinon.stub(semver, 'major').callsFake(() => helpers.majorVersion);
-            semverMinorStub = Sinon.stub(semver, 'minor').callsFake(() => helpers.minorVersion);
-            semverPatchStub = Sinon.stub(semver, 'patch').callsFake(() => helpers.patchVersion);
+            semverMajorStub = Sinon.stub(semver, 'major').callsFake(
+                () => helpers.majorVersion
+            );
+            semverMinorStub = Sinon.stub(semver, 'minor').callsFake(
+                () => helpers.minorVersion
+            );
+            semverPatchStub = Sinon.stub(semver, 'patch').callsFake(
+                () => helpers.patchVersion
+            );
         });
 
         teardown(() => {
@@ -268,28 +323,44 @@ suite('utils Suite:', () => {
 
         test('Should throw an error when semver inc throws an error', () => {
             semverIncStub.throws(() => new Error(errorMessage));
-            assert.throws(() => utils.bumpVersion(taskJson, version, defaultOpts), errorMessage);
+            assert.throws(
+                () => utils.bumpVersion(taskJson, version, defaultOpts),
+                errorMessage
+            );
             assert.isTrue(semverIncStub.calledWith(version, defaultOpts.type));
         });
 
         test('Should throw an error when retrieving major throws an error', () => {
             semverMajorStub.throws(() => new Error(errorMessage));
-            assert.throws(() => utils.bumpVersion(taskJson, version, defaultOpts), errorMessage);
+            assert.throws(
+                () => utils.bumpVersion(taskJson, version, defaultOpts),
+                errorMessage
+            );
         });
 
         test('Should throw an error when retrieving minor throws an error', () => {
             semverMinorStub.throws(() => new Error(errorMessage));
-            assert.throws(() => utils.bumpVersion(taskJson, version, defaultOpts), errorMessage);
+            assert.throws(
+                () => utils.bumpVersion(taskJson, version, defaultOpts),
+                errorMessage
+            );
         });
 
         test('Should throw an error when retrieving patch throws an error', () => {
             semverPatchStub.throws(() => new Error(errorMessage));
-            assert.throws(() => utils.bumpVersion(taskJson, version, defaultOpts), errorMessage);
+            assert.throws(
+                () => utils.bumpVersion(taskJson, version, defaultOpts),
+                errorMessage
+            );
         });
 
         test('Should correctly set bumped version properties when no property type is specified', () => {
             semverPatchStub.callsFake(() => bumpedPatch);
-            const bumpedVersion = utils.bumpVersion(taskJson, version, defaultOpts);
+            const bumpedVersion = utils.bumpVersion(
+                taskJson,
+                version,
+                defaultOpts
+            );
             assert.deepEqual(bumpedVersion, helpers.bumpedVersion);
             assert.deepEqual(taskJson.version.Major, helpers.majorVersion);
             assert.deepEqual(taskJson.version.Minor, helpers.minorVersion);
