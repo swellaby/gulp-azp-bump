@@ -1,110 +1,129 @@
 # gulp-azp-bump
+
 Gulp plugin to bump the version of [Azure Pipelines][vsts-url] tasks. Note this is also available as a [standalone CLI/Lib][vsts-bump-url].
 
 [![npmjs version Badge][npmjs-version-badge]][npmjs-pkg-url]
-[![npmjs downloads Badge][npmjs-downloads-badge]][npmjs-pkg-url] [![License Badge][license-badge]][license-url]  
+[![npmjs downloads Badge][npmjs-downloads-badge]][npmjs-pkg-url] [![License Badge][license-badge]][license-url]
 
 [![Circle CI Badge][circle-ci-badge]][circle-ci-url]
 [![AppVeyor Status][appveyor-badge]][appveyor-url]
 [![Test Results Badge][tests-badge]][appveyor-url]
 [![Coverage Status][codecov-badge]][codecov-url]
-[![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url] 
+[![Sonar Quality Gate][sonar-quality-gate-badge]][sonar-url]
 
 **Feature Completion Notice**
 
-*Please note that we consider this package to be feature complete. We will continue to maintain and support this package by fixing any bugs discovered, updating dependency versions, etc. We will also consider PRs/Enhancement requests, but we do not have additional development activities planned at this time.*  
+_Please note that we consider this package to be feature complete. We will continue to maintain and support this package by fixing any bugs discovered, updating dependency versions, etc. We will also consider PRs/Enhancement requests, but we do not have additional development activities planned at this time._
 
 ## About
+
 Gulp plugin that supports bumping the versions of [Azure Pipelines][vsts-url] tasks. The [Azure Pipelines][vsts-url] task manifest files maintain the version as an Object which differs from the traditional semver string used to represent the version found in other files like package.json (note that the values of Major, Minor, Patch can be strings OR numbers).
 
 [Azure Pipelines][vsts-url] task manifest example:
+
 ```json
 {
-    "id": "923e6d5c-0b14-462b-922e-813cbd2ef4cc",
-    "name": "2018azp",
-    "friendlyName": "Sample Task",
-    "description": "azp",
-    "author": "me",
-    "version": {
-        "Major": 0,
-        "Minor": 1,
-        "Patch": 1
-    },
+  "id": "923e6d5c-0b14-462b-922e-813cbd2ef4cc",
+  "name": "2018azp",
+  "friendlyName": "Sample Task",
+  "description": "azp",
+  "author": "me",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 1
+  }
 }
 ```
 
-The [Azure Pipelines][vsts-url] task version cannot be bumped using other gulp plugins without writing a lot of extra code, so we wrote this plugin to provide simple support specifically for [Azure Pipelines][vsts-url] tasks.  
+The [Azure Pipelines][vsts-url] task version cannot be bumped using other gulp plugins without writing a lot of extra code, so we wrote this plugin to provide simple support specifically for [Azure Pipelines][vsts-url] tasks.
 
-This plugin should only be used for bumping [Azure Pipelines][vsts-url] task manifest files. For bumping any other standard version string in any other type file (like in a package.json file) you should *not* use this plugin, and you should use something like [gulp-bump][gulp-bump-pkg-url] instead.
+This plugin should only be used for bumping [Azure Pipelines][vsts-url] task manifest files. For bumping any other standard version string in any other type file (like in a package.json file) you should _not_ use this plugin, and you should use something like [gulp-bump][gulp-bump-pkg-url] instead.
 
 ## Install
+
 Install the package as a dev dependency:
+
 ```sh
 npm i gulp-azp-bump --save-dev
 ```
 
 ## Usage
+
 **Simple Usage (bumps patch version by default)**
+
 ```js
 const gulp = require('gulp');
 const azpBump = require('gulp-azp-bump');
 
 gulp.task('tasks:bump', function () {
-    return gulp.src(['./tasks/**/task.json'], { base: './' })
-        .pipe(azpBump())
-        .pipe(gulp.dest('./'));
+  return gulp
+    .src(['./tasks/**/task.json'], { base: './' })
+    .pipe(azpBump())
+    .pipe(gulp.dest('./'));
 });
 ```
 
 **Specific Bump Type**
+
 ```js
 const gulp = require('gulp');
 const azpBump = require('gulp-azp-bump');
 
 gulp.task('tasks:bump', function () {
-    return gulp.src(['./tasks/**/task.json'], { base: './' })
-        .pipe(azpBump({ type: 'minor' }))
-        .pipe(gulp.dest('./'));
+  return gulp
+    .src(['./tasks/**/task.json'], { base: './' })
+    .pipe(azpBump({ type: 'minor' }))
+    .pipe(gulp.dest('./'));
 });
 ```
 
 ## Options
-### **type**: string 
-- *Default Value*: `'patch'`
-- *Allowed Values*: `'major'`, `'minor'`, `'patch'`
-- *Description*: Specifies the release type you want to bump. Technically any valid semver type (including prerelease, etc.) will be accepted, but you shouldn't use anything other than `major`, `minor`, or `patch` since that is all Azure Pipelines tasks can store. 
 
-For example to bump the minor version value:  
+### **type**: string
+
+- _Default Value_: `'patch'`
+- _Allowed Values_: `'major'`, `'minor'`, `'patch'`
+- _Description_: Specifies the release type you want to bump. Technically any valid semver type (including prerelease, etc.) will be accepted, but you shouldn't use anything other than `major`, `minor`, or `patch` since that is all Azure Pipelines tasks can store.
+
+For example to bump the minor version value:
+
 ```js
     .pipe(azpBump({ type: 'minor' }))
-```  
+```
 
-Or the major version value:  
+Or the major version value:
+
 ```js
     .pipe(azpBump({ type: 'major' }))
-``` 
+```
 
-### **quiet**: boolean   
-- *Default Value*: ```false```
-- *Allowed Values*: ```true```, ```false```
-- *Description*: Set this to ```true``` if you want to suppress the log output
+### **quiet**: boolean
+
+- _Default Value_: `false`
+- _Allowed Values_: `true`, `false`
+- _Description_: Set this to `true` if you want to suppress the log output
 
 Example:
+
 ```js
     .pipe(azpBump({ quiet: true }))
-```  
+```
 
-### **versionPropertyType**: string  
-- *Default Value*: ```'number'```
-- *Allowed Values*: ```'number'```, ```'string'```
-- *Description*: Specifies whether the emitted version property values should be numbers or strings. Some Azure Pipelines tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (Azure Pipelines supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to ```'string'``` in the configuration options
+### **versionPropertyType**: string
+
+- _Default Value_: `'number'`
+- _Allowed Values_: `'number'`, `'string'`
+- _Description_: Specifies whether the emitted version property values should be numbers or strings. Some Azure Pipelines tasks specify the values for the version Major, Minor, and Patch properties as a number while others store it as a string (Azure Pipelines supports both apparently). By default the plugin will emit the bumped version values as numbers in the task.json file(s), but if you would prefer those values to be strings instead then set this property to `'string'` in the configuration options
 
 Example:
+
 ```js
     .pipe(azpBump({ versionPropertyType: 'string' }))
-``` 
+```
 
 If the initial version object in your task.json file looks like this:
+
 ```json
     "version": {
         "Major": 0,
@@ -114,10 +133,13 @@ If the initial version object in your task.json file looks like this:
 ```
 
 If you run the plugin with the default options (bumps patch), then the emitted bumped version object will have the Patch version bumped and the values will be numbers:
+
 ```js
     .pipe(azpBump())
-``` 
+```
+
 Emitted task.json version object:
+
 ```json
     "version": {
         "Major": 0,
@@ -126,11 +148,14 @@ Emitted task.json version object:
     },
 ```
 
-If instead you specified ```'string'``` for the versionPropertyType, then the emitted bumped version object will have the Patch version bumped and the values will be strings: 
+If instead you specified `'string'` for the versionPropertyType, then the emitted bumped version object will have the Patch version bumped and the values will be strings:
+
 ```js
     .pipe(azpBump({ versionPropertyType: 'string' }))
-``` 
+```
+
 Emitted task.json version object:
+
 ```json
     "version": {
         "Major": "0",
@@ -139,25 +164,30 @@ Emitted task.json version object:
     },
 ```
 
-### **indent**: number OR string  
-- *Default Value*: ```2```
-- *Allowed Values*: Any positive whole number between ```1``` and ```10``` inclusive, or the tab character ```'\t'```
-- *Description*: Controls the spacing indent value to use in the updated task.json file(s). If a number is specified, each level in the json file will be indented by that number of space characters. Alternatively, if the tab ```'\t'``` character is specified, then each level will be indented with a tab.
+### **indent**: number OR string
 
-For example to indent by 4 spaces:  
+- _Default Value_: `2`
+- _Allowed Values_: Any positive whole number between `1` and `10` inclusive, or the tab character `'\t'`
+- _Description_: Controls the spacing indent value to use in the updated task.json file(s). If a number is specified, each level in the json file will be indented by that number of space characters. Alternatively, if the tab `'\t'` character is specified, then each level will be indented with a tab.
+
+For example to indent by 4 spaces:
+
 ```js
     .pipe(azpBump({ indent: 4 }))
-```  
+```
 
-Or if you prefer a tab:  
+Or if you prefer a tab:
+
 ```js
     .pipe(azpBump({ indent: '\t' }))
 ```
 
 ## License
-MIT - see license details [here][license-url] 
+
+MIT - see license details [here][license-url]
 
 ## Contributing
+
 Need to open an issue? Click the below links to create one:
 
 - [Report a bug][create-bug-url]
