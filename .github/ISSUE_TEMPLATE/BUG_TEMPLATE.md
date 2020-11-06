@@ -1,13 +1,17 @@
 ## Environment
+
 Enter the specific information below about the environment where you encountered the bug (and delete this line)
-- **Node.js version**: 
-- **npm version**: 
+
+- **Node.js version**:
+- **npm version**:
 - **Operating System**: Linux, OSX, Windows
-- **Gulp version**: 
-- **gulp-vsts-bump plugin version**: 
+- **Gulp version**:
+- **gulp-vsts-bump plugin version**:
 
 ## Description
+
 Enter a detailed description of the bug here (and delete this line)
 
 ## Reproduce
+
 If relevant, enter steps here on how the bug can be reproduced (and delete this line)

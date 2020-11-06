@@ -27,20 +27,33 @@ suite('index Suite:', () => {
     let utilsBumpVersionStub;
 
     const stubUtilsFunctions = () => {
-        utilsValidateOptionsStub = Sinon.stub(utils, 'validateOptions').callsFake(() => helpers.defaultOptions);
-        utilsGetTaskVersionStub = Sinon.stub(utils, 'getTaskVersion').callsFake(() => helpers.initialVersion);
-        utilsBumpVersionStub = Sinon.stub(utils, 'bumpVersion').callsFake(() => helpers.bumpedVersion);
+        utilsValidateOptionsStub = Sinon.stub(
+            utils,
+            'validateOptions'
+        ).callsFake(() => helpers.defaultOptions);
+        utilsGetTaskVersionStub = Sinon.stub(utils, 'getTaskVersion').callsFake(
+            () => helpers.initialVersion
+        );
+        utilsBumpVersionStub = Sinon.stub(utils, 'bumpVersion').callsFake(
+            () => helpers.bumpedVersion
+        );
     };
 
     setup(() => {
         opts = { quiet: true };
         stubUtilsFunctions();
         fileStub = helpers.validSampleOneTaskFile;
-        semverValidStub = Sinon.stub(semver, 'valid').callsFake(() => { return true; });
+        semverValidStub = Sinon.stub(semver, 'valid').callsFake(() => {
+            return true;
+        });
         throughObjStub = Sinon.stub(through, 'obj');
         fileIsNullStub = Sinon.stub(fileStub, 'isNull').callsFake(() => false);
-        fileIsStreamStub = Sinon.stub(fileStub, 'isStream').callsFake(() => false);
-        jsonParseStub = Sinon.stub(JSON, 'parse').callsFake(() => { return helpers.validSampleOneTaskContents; });
+        fileIsStreamStub = Sinon.stub(fileStub, 'isStream').callsFake(
+            () => false
+        );
+        jsonParseStub = Sinon.stub(JSON, 'parse').callsFake(() => {
+            return helpers.validSampleOneTaskContents;
+        });
         jsonStringifySpy = Sinon.spy(JSON, 'stringify');
         logInfoStub = Sinon.stub(log, 'info');
     });
@@ -119,9 +132,12 @@ suite('index Suite:', () => {
         });
 
         test('Should invoke the callback with an error when the file version is invalid', (done) => {
-            const invalidVersion = 'abc.' + helpers.minorVersion + '.' + helpers.patchVersion;
-            const invalidVersionErrorMessagePrefix = 'Task manifest file contains an invalid version specification: ';
-            const invalidVersionErrorMessage = invalidVersionErrorMessagePrefix + invalidVersion;
+            const invalidVersion =
+                'abc.' + helpers.minorVersion + '.' + helpers.patchVersion;
+            const invalidVersionErrorMessagePrefix =
+                'Task manifest file contains an invalid version specification: ';
+            const invalidVersionErrorMessage =
+                invalidVersionErrorMessagePrefix + invalidVersion;
             semverValidStub.callsFake(() => false);
             jsonParseStub.callsFake(() => helpers.invalidSampleOneTaskContents);
             utilsGetTaskVersionStub.callsFake(() => invalidVersion);
@@ -131,7 +147,11 @@ suite('index Suite:', () => {
                 assert.deepEqual(err.plugin, helpers.pluginName);
                 done();
             };
-            throughObjStub.yields(helpers.invalidSampleOneTaskFile, null, callback);
+            throughObjStub.yields(
+                helpers.invalidSampleOneTaskFile,
+                null,
+                callback
+            );
             index(opts);
         });
     });
@@ -171,11 +191,15 @@ suite('index Suite:', () => {
     });
 
     suite('Update file Suite:', () => {
-        const bumpedPatchVersion = (helpers.patch + 1);
+        const bumpedPatchVersion = helpers.patch + 1;
 
         test('Should correctly bump the file with string property type', (done) => {
             opts.versionPropertyType = helpers.stringVersionPropertyType;
-            const taskJson = helpers.createSampleTaskContents(helpers.majorVersionStr, helpers.minorVersionStr, helpers.patchVersionStr);
+            const taskJson = helpers.createSampleTaskContents(
+                helpers.majorVersionStr,
+                helpers.minorVersionStr,
+                helpers.patchVersionStr
+            );
             utilsBumpVersionStub.callsFake(() => {
                 taskJson.version.Patch = bumpedPatchVersion.toString();
                 return helpers.bumpedVersion;
@@ -184,11 +208,35 @@ suite('index Suite:', () => {
             callback = (err, data) => {
                 assert.isNull(err);
                 assert.isTrue(jsonStringifySpy.calledWith(taskJson));
-                assert.deepEqual(taskJson.version.Major, helpers.majorVersionStr);
-                assert.deepEqual(taskJson.version.Minor, helpers.minorVersionStr);
-                assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion.toString());
-                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson, null, helpers.defaultJsonIndent)));
-                assert.isTrue(utilsBumpVersionStub.calledWith(taskJson, helpers.initialVersion, helpers.defaultOptions));
+                assert.deepEqual(
+                    taskJson.version.Major,
+                    helpers.majorVersionStr
+                );
+                assert.deepEqual(
+                    taskJson.version.Minor,
+                    helpers.minorVersionStr
+                );
+                assert.deepEqual(
+                    taskJson.version.Patch,
+                    bumpedPatchVersion.toString()
+                );
+                assert.deepEqual(
+                    data.contents,
+                    new Buffer(
+                        JSON.stringify(
+                            taskJson,
+                            null,
+                            helpers.defaultJsonIndent
+                        )
+                    )
+                );
+                assert.isTrue(
+                    utilsBumpVersionStub.calledWith(
+                        taskJson,
+                        helpers.initialVersion,
+                        helpers.defaultOptions
+                    )
+                );
                 done();
             };
             jsonParseStub.callsFake(() => taskJson);
@@ -197,7 +245,11 @@ suite('index Suite:', () => {
         });
 
         test('Should correctly bump the file with number property type', (done) => {
-            const taskJson = helpers.createSampleTaskContents(helpers.majorVersion, helpers.minorVersion, helpers.patchVersion);
+            const taskJson = helpers.createSampleTaskContents(
+                helpers.majorVersion,
+                helpers.minorVersion,
+                helpers.patchVersion
+            );
             utilsBumpVersionStub.callsFake(() => {
                 taskJson.version.Patch = bumpedPatchVersion;
                 return helpers.bumpedVersion;
@@ -209,8 +261,23 @@ suite('index Suite:', () => {
                 assert.deepEqual(taskJson.version.Major, helpers.majorVersion);
                 assert.deepEqual(taskJson.version.Minor, helpers.minorVersion);
                 assert.deepEqual(taskJson.version.Patch, bumpedPatchVersion);
-                assert.deepEqual(data.contents, new Buffer(JSON.stringify(taskJson, null, helpers.defaultJsonIndent)));
-                assert.isTrue(utilsBumpVersionStub.calledWith(taskJson, helpers.initialVersion, helpers.defaultOptions));
+                assert.deepEqual(
+                    data.contents,
+                    new Buffer(
+                        JSON.stringify(
+                            taskJson,
+                            null,
+                            helpers.defaultJsonIndent
+                        )
+                    )
+                );
+                assert.isTrue(
+                    utilsBumpVersionStub.calledWith(
+                        taskJson,
+                        helpers.initialVersion,
+                        helpers.defaultOptions
+                    )
+                );
                 done();
             };
             jsonParseStub.callsFake(() => taskJson);
@@ -322,7 +389,9 @@ suite('index Suite:', () => {
 
         test('Should log correct output content', (done) => {
             callback = () => {
-                assert.isTrue(logInfoStub.calledWith(helpers.expectedLogMessage));
+                assert.isTrue(
+                    logInfoStub.calledWith(helpers.expectedLogMessage)
+                );
                 done();
             };
             throughObjStub.yields(fileStub, null, callback);

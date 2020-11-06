@@ -19,7 +19,9 @@ suite('Module Suite:', () => {
     setup(() => {
         logInfoStub = Sinon.stub(log, 'info');
         fakeFile = new File({
-            contents: new Buffer(JSON.stringify(helpers.validSampleOneTaskContents)),
+            contents: new Buffer(
+                JSON.stringify(helpers.validSampleOneTaskContents)
+            ),
             path: helpers.filePath
         });
         opts = {};
@@ -38,10 +40,13 @@ suite('Module Suite:', () => {
 
         test('Should bump patch version when nothing is specified', (done) => {
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionStringObject
+                );
                 done();
             });
 
@@ -52,10 +57,13 @@ suite('Module Suite:', () => {
         test('Should bump patch version when invalid type is specified', (done) => {
             opts.type = 'foobar';
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionStringObject
+                );
                 done();
             });
 
@@ -66,10 +74,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump patch version when patch type is specified', (done) => {
             opts.type = helpers.patchReleaseType;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionStringObject
+                );
                 done();
             });
 
@@ -80,10 +91,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump patch version when prerelease type is specified', (done) => {
             opts.type = 'prerelease';
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionStringObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionStringObject
+                );
                 done();
             });
 
@@ -94,10 +108,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump minor version when minor type is specified', (done) => {
             opts.type = helpers.minorReleaseType;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMinorVersionStringObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedMinorVersionStringObject
+                );
                 done();
             });
 
@@ -108,10 +125,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump major version when major type is specified', (done) => {
             opts.type = helpers.majorReleaseType;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionStringObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedMajorVersionStringObject
+                );
                 done();
             });
 
@@ -134,10 +154,13 @@ suite('Module Suite:', () => {
 
         test('Should bump patch version when nothing is specified', (done) => {
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionNumberObject
+                );
                 done();
             });
 
@@ -148,10 +171,13 @@ suite('Module Suite:', () => {
         test('Should bump patch version when invalid type is specified', (done) => {
             opts.type = 'foobar';
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionNumberObject
+                );
                 done();
             });
 
@@ -162,10 +188,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump patch version when patch type is specified', (done) => {
             opts.type = helpers.patchReleaseType;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionNumberObject
+                );
                 done();
             });
 
@@ -176,10 +205,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump patch version when prerelease type is specified', (done) => {
             opts.type = 'prerelease';
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedPatchVersionNumberObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedPatchVersionNumberObject
+                );
                 done();
             });
 
@@ -190,10 +222,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump minor version when minor type is specified', (done) => {
             opts.type = helpers.minorReleaseType;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMinorVersionNumberObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedMinorVersionNumberObject
+                );
                 done();
             });
 
@@ -204,10 +239,13 @@ suite('Module Suite:', () => {
         test('Should correctly bump major version when major type is specified', (done) => {
             opts.type = helpers.majorReleaseType;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 const updatedTask = JSON.parse(newFile.contents.toString());
-                assert.deepEqual(updatedTask.version, helpers.bumpedMajorVersionNumberObject);
+                assert.deepEqual(
+                    updatedTask.version,
+                    helpers.bumpedMajorVersionNumberObject
+                );
                 done();
             });
 
@@ -219,9 +257,13 @@ suite('Module Suite:', () => {
     suite('Indent configuration options Suite:', () => {
         test('Should use default indent when no indent specified', (done) => {
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    helpers.defaultJsonIndent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -233,9 +275,13 @@ suite('Module Suite:', () => {
         test('Should use default indent when invalid indent specified', (done) => {
             opts.indent = 'invalid';
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    helpers.defaultJsonIndent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -247,9 +293,13 @@ suite('Module Suite:', () => {
         test('Should use default indent when NaN indent specified', (done) => {
             opts.indent = NaN;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    helpers.defaultJsonIndent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -261,9 +311,13 @@ suite('Module Suite:', () => {
         test('Should use default indent when negative indent specified', (done) => {
             opts.indent = -7;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    helpers.defaultJsonIndent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -275,9 +329,13 @@ suite('Module Suite:', () => {
         test('Should use default indent when zero indent specified', (done) => {
             opts.indent = 0;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    helpers.defaultJsonIndent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -289,9 +347,13 @@ suite('Module Suite:', () => {
         test('Should use default indent when indent over ten specified', (done) => {
             opts.indent = 32;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, helpers.defaultJsonIndent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    helpers.defaultJsonIndent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -304,9 +366,13 @@ suite('Module Suite:', () => {
             const indent = 1;
             opts.indent = indent;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    indent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -319,9 +385,13 @@ suite('Module Suite:', () => {
             const indent = 10;
             opts.indent = indent;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    indent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -334,9 +404,13 @@ suite('Module Suite:', () => {
             const indent = 6;
             opts.indent = indent;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    indent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -349,9 +423,13 @@ suite('Module Suite:', () => {
             const indent = '\t';
             opts.indent = indent;
             const bump = vstsBump(opts);
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                const expected = JSON.stringify(helpers.validSampleOneNumericBumpedVersionTaskContents, null, indent);
+                const expected = JSON.stringify(
+                    helpers.validSampleOneNumericBumpedVersionTaskContents,
+                    null,
+                    indent
+                );
                 assert.deepEqual(newFile.contents.toString(), expected);
                 done();
             });
@@ -365,7 +443,7 @@ suite('Module Suite:', () => {
         test('Should return the file when it is null', (done) => {
             fakeFile.contents = null;
             const bump = vstsBump();
-            bump.once(helpers.streamDataEventName, function(file) {
+            bump.once(helpers.streamDataEventName, function (file) {
                 assert.deepEqual(file, fakeFile);
                 done();
             });
@@ -376,7 +454,7 @@ suite('Module Suite:', () => {
         test('Should bubble an error when the file content is a stream', (done) => {
             fakeFile.contents = new ReadableStream();
             const bump = vstsBump();
-            bump.once('error', function(e) {
+            bump.once('error', function (e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Streaming not supported');
                 done();
@@ -388,7 +466,7 @@ suite('Module Suite:', () => {
         test('Should bubble an error when a fatal exception occurs while updating the file', (done) => {
             logInfoStub.throws(() => new Error());
             const bump = vstsBump();
-            bump.once('error', function(e) {
+            bump.once('error', function (e) {
                 assert.isNotNull(e);
                 assert.deepEqual(e.message, 'Error bumping version');
                 done();
@@ -401,7 +479,7 @@ suite('Module Suite:', () => {
     suite('Log output Suite:', () => {
         test('Should not log output when no quiet option is specified', (done) => {
             const bump = vstsBump({ quiet: true });
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 assert.isFalse(logInfoStub.called);
                 done();
@@ -413,7 +491,7 @@ suite('Module Suite:', () => {
 
         test('Should not log output when quiet option is set to true', (done) => {
             const bump = vstsBump({ quiet: true });
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
                 assert.isFalse(logInfoStub.called);
                 done();
@@ -425,9 +503,11 @@ suite('Module Suite:', () => {
 
         test('Should log output when quiet option is set to false', (done) => {
             const bump = vstsBump({ quiet: false });
-            bump.once(helpers.streamDataEventName, function(newFile) {
+            bump.once(helpers.streamDataEventName, function (newFile) {
                 assert.isNotNull(newFile);
-                assert.isTrue(logInfoStub.calledWith(helpers.expectedLogMessage));
+                assert.isTrue(
+                    logInfoStub.calledWith(helpers.expectedLogMessage)
+                );
                 done();
             });
 
